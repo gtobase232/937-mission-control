@@ -1,132 +1,150 @@
-import { Task, CalendarEvent, Project, MemoryEntry, Doc, TeamMember, FinanceEntry, Lead, AnalyticsData, ContentPost } from './types';
+import { Task, CalendarEvent, Client, Doc, Invoice, Lead, TeamMember, ContentPost, FinanceEntry, AnalyticsData } from './types';
 
 export const seedTasks: Task[] = [
-  { id: '1', title: 'LIQD brand guidelines v2', description: 'Finalize updated brand guidelines for LIQD — typography, color system, logo usage rules', assignee: 'Trinkster', priority: 'critical', status: 'in-progress', dueDate: '2026-03-10', createdAt: '2026-03-01' },
-  { id: '2', title: 'Content calendar — March', description: 'Plan and schedule Instagram/X content for all active client campaigns', assignee: 'Both', priority: 'high', status: 'todo', dueDate: '2026-03-08', createdAt: '2026-03-01' },
-  { id: '3', title: 'Social media audit — LIQD', description: 'Full audit of LIQD social channels: engagement rates, content gaps, competitor analysis', assignee: 'Trinkster', priority: 'high', status: 'in-progress', dueDate: '2026-03-12', createdAt: '2026-03-02' },
-  { id: '4', title: 'Website copy for 937 portfolio', description: 'Write compelling copy for the 937 Studio website case studies section', assignee: 'Trinkster', priority: 'medium', status: 'review', dueDate: '2026-03-06', createdAt: '2026-03-01' },
-  { id: '5', title: 'Brand proposal — new crypto client', description: 'Create brand identity proposal for incoming fintech/crypto lead', assignee: 'Both', priority: 'critical', status: 'todo', dueDate: '2026-03-07', createdAt: '2026-03-02' },
-  { id: '6', title: 'Website redesign — Zama', description: 'Complete website redesign mockups for Zama (reference client)', assignee: 'Both', priority: 'high', status: 'backlog', dueDate: '2026-03-20', createdAt: '2026-03-03' },
-  { id: '7', title: 'Mood board — LIQD campaign', description: 'Create visual mood board for LIQD Q2 content campaign', assignee: 'Trinkster', priority: 'medium', status: 'done', dueDate: '2026-03-04', createdAt: '2026-02-28' },
-  { id: '8', title: 'Weekly Instagram content plan', description: 'Plan and schedule Instagram posts for the upcoming week across clients', assignee: 'Both', priority: 'medium', status: 'todo', dueDate: '2026-03-05', createdAt: '2026-03-03' },
-  { id: '9', title: 'Design system — 937 internal', description: 'Build internal design system with reusable components for faster client delivery', assignee: 'Both', priority: 'critical', status: 'backlog', dueDate: '2026-03-15', createdAt: '2026-03-03' },
-  { id: '10', title: 'Client onboarding deck', description: 'Design the onboarding presentation for new 937 clients', assignee: 'Trinkster', priority: 'high', status: 'backlog', dueDate: '2026-03-18', createdAt: '2026-03-03' },
+  { id: '1', title: 'Nexus — finalize logo variations', description: 'Complete all logo variations for Nexus Protocol brand identity', assignee: 'Trinkster', priority: 'high', status: 'done', dueDate: '2026-03-03', createdAt: '2026-02-25' },
+  { id: '2', title: 'Orbital — wireframe review', description: 'Review and approve wireframes for Orbital Labs website redesign', assignee: 'Check Rossi', priority: 'high', status: 'done', dueDate: '2026-03-04', createdAt: '2026-02-26' },
+  { id: '3', title: 'ChainMind — export deck PDF', description: 'Export final pitch deck to PDF for ChainMind presentation', assignee: 'Jade', priority: 'medium', status: 'done', dueDate: '2026-03-04', createdAt: '2026-02-28' },
+  { id: '4', title: 'Vanta — dark mode toggle', description: 'Implement dark mode toggle for Vanta Finance dashboard UI', assignee: 'Check Rossi', priority: 'medium', status: 'in-progress', dueDate: '2026-03-08', createdAt: '2026-03-01' },
+  { id: '5', title: 'Strata — motion storyboard v1', description: 'Create first version of motion storyboard for Strata L2 launch video', assignee: 'Leo', priority: 'critical', status: 'in-progress', dueDate: '2026-03-05', createdAt: '2026-03-01' },
+  { id: '6', title: 'Send proposal to Meridian DAO', description: 'Draft and send brand identity proposal to Meridian DAO lead', assignee: 'Trinkster', priority: 'critical', status: 'todo', dueDate: '2026-03-06', createdAt: '2026-03-02' },
+  { id: '7', title: 'Invoice Nexus milestone 2', description: 'Send invoice for Nexus Protocol brand identity phase 2 completion', assignee: 'Nico', priority: 'medium', status: 'done', dueDate: '2026-03-03', createdAt: '2026-02-28' },
+  { id: '8', title: 'Portfolio — Vanta case study', description: 'Write and design Vanta Finance case study for 937 portfolio', assignee: 'Maya', priority: 'medium', status: 'done', dueDate: '2026-03-04', createdAt: '2026-03-01' },
+  { id: '9', title: 'Flux AI — brand discovery call', description: 'Schedule and prepare for brand discovery call with Flux AI team', assignee: 'Trinkster', priority: 'high', status: 'todo', dueDate: '2026-03-07', createdAt: '2026-03-03' },
+  { id: '10', title: 'Design system — component library', description: 'Build reusable component library for faster client delivery', assignee: 'Check Rossi', priority: 'high', status: 'backlog', dueDate: '2026-03-15', createdAt: '2026-03-03' },
+  { id: '11', title: 'March newsletter draft', description: 'Write March newsletter with studio updates and case studies', assignee: 'Maya', priority: 'medium', status: 'todo', dueDate: '2026-03-09', createdAt: '2026-03-03' },
+  { id: '12', title: 'Orbital — site launch prep', description: 'Final QA and launch preparation for Orbital Labs website', assignee: 'Check Rossi', priority: 'high', status: 'backlog', dueDate: '2026-03-28', createdAt: '2026-03-04' },
+  { id: '13', title: 'Social media audit — Strata', description: 'Full audit of Strata social channels for content strategy', assignee: 'Maya', priority: 'medium', status: 'review', dueDate: '2026-03-10', createdAt: '2026-03-02' },
+  { id: '14', title: 'Zenith Labs — mood board', description: 'Create visual mood board for Zenith Labs brand exploration', assignee: 'Jade', priority: 'low', status: 'backlog', dueDate: '2026-03-18', createdAt: '2026-03-04' },
+  { id: '15', title: 'Client onboarding deck update', description: 'Update the onboarding presentation with new case studies', assignee: 'Nico', priority: 'medium', status: 'review', dueDate: '2026-03-12', createdAt: '2026-03-03' },
 ];
 
 export const seedCalendarEvents: CalendarEvent[] = [
-  { id: '1', title: 'Team standup', date: '2026-03-04', time: '09:00', assignee: 'Both', type: 'meeting' },
-  { id: '2', title: 'LIQD brand review call', date: '2026-03-06', time: '14:00', assignee: 'Both', type: 'meeting' },
-  { id: '3', title: 'Content shoot — LIQD', date: '2026-03-10', time: '10:00', assignee: 'Trinkster', type: 'launch' },
-  { id: '4', title: 'Design review — website mockups', date: '2026-03-08', time: '16:00', assignee: 'Both', type: 'review' },
-  { id: '5', title: 'Sprint review', date: '2026-03-14', time: '11:00', assignee: 'Both', type: 'review' },
-  { id: '6', title: 'CDMX Creative Meetup', date: '2026-03-12', time: '18:00', assignee: 'Both', type: 'other' },
-  { id: '7', title: 'Zama website deadline', date: '2026-03-20', time: '23:59', assignee: 'Both', type: 'deadline' },
-  { id: '8', title: 'Content strategy session', date: '2026-03-05', time: '15:00', assignee: 'Both', type: 'meeting' },
+  { id: '1', title: 'Strata — Storyboard Due', date: '2026-03-05', time: 'All Day', type: 'deadline' },
+  { id: '2', title: 'ChainMind — Final Deck', date: '2026-03-06', time: '14:00', type: 'deadline' },
+  { id: '3', title: 'Nexus — Brand Review', date: '2026-03-10', time: '10:00', type: 'meeting' },
+  { id: '4', title: 'Meridian DAO Call', date: '2026-03-14', time: '16:00', type: 'meeting' },
+  { id: '5', title: 'Vanta — Handoff', date: '2026-03-20', time: '11:00', type: 'milestone' },
+  { id: '6', title: 'Flux AI — Discovery Call', date: '2026-03-07', time: '15:00', type: 'meeting' },
+  { id: '7', title: 'Sprint Review', date: '2026-03-12', time: '11:00', type: 'meeting' },
+  { id: '8', title: 'Orbital — Site Launch', date: '2026-03-28', time: 'All Day', type: 'milestone' },
+  { id: '9', title: 'CDMX Creative Meetup', date: '2026-03-18', time: '18:00', type: 'other' },
+  { id: '10', title: 'Flux AI — Brand Kit Due', date: '2026-03-20', time: 'All Day', type: 'deadline' },
 ];
 
-export const seedProjects: Project[] = [
-  {
-    id: '1', name: 'Brand Identity', description: 'Full brand identity services — logos, color systems, typography, brand guidelines, and visual language for clients.',
-    status: 'active', progress: 65,
-    kpis: [{ label: 'Brands Delivered', value: '8', target: '15' }, { label: 'Client Satisfaction', value: '96%', target: '95%' }, { label: 'Avg Turnaround', value: '12 days', target: '10 days' }]
-  },
-  {
-    id: '2', name: 'Content Production', description: 'End-to-end content production — photography, video, copywriting, and asset creation for social and web.',
-    status: 'active', progress: 40,
-    kpis: [{ label: 'Assets Created', value: '340', target: '500' }, { label: 'Engagement Rate', value: '4.8%', target: '5%' }, { label: 'Posts Published', value: '128', target: '200' }]
-  },
-  {
-    id: '3', name: 'Social Media Management', description: 'Full-service social media management — strategy, content calendars, community management, and analytics reporting.',
-    status: 'active', progress: 55,
-    kpis: [{ label: 'Accounts Managed', value: '6', target: '10' }, { label: 'Follower Growth', value: '+32%', target: '+40%' }, { label: 'Monthly Reach', value: '850K', target: '1M' }]
-  },
-  {
-    id: '4', name: 'Web Design', description: 'Custom website design and development — landing pages, portfolios, and brand sites built for conversion.',
-    status: 'planning', progress: 15,
-    kpis: [{ label: 'Sites Delivered', value: '3', target: '10' }, { label: 'Avg Load Time', value: '1.2s', target: '1s' }, { label: 'Client Revenue', value: '$18K', target: '$50K' }]
-  },
-];
-
-export const seedMemoryEntries: MemoryEntry[] = [
-  { id: '1', date: '2026-03-04', content: 'Decided to position 937 as a premium creative studio focused on crypto, AI, and fintech brands. CDMX gives us cost advantage with global-tier output.', category: 'decision' },
-  { id: '2', date: '2026-03-03', content: 'Instagram reels outperforming static posts 3x for client accounts. Key insight: behind-the-scenes content drives highest engagement.', category: 'insight' },
-  { id: '3', date: '2026-03-02', content: 'Completed LIQD brand guidelines v1 delivery. $8K project fee collected. Client requesting ongoing retainer.', category: 'milestone' },
-  { id: '4', date: '2026-03-01', content: 'Met 3 potential clients at CDMX design event. Two crypto companies showed strong interest in full rebrand. Follow up scheduled for March 6.', category: 'note' },
-  { id: '5', date: '2026-02-28', content: 'Social media management for LIQD achieving 4.8% engagement rate — well above industry average of 1.5%. Carousel format working best on Instagram.', category: 'insight' },
-  { id: '6', date: '2026-02-25', content: 'Decided on pricing model: Brand Identity $8K-25K, Content Production $3K-8K/month retainer, Social Media $2K-6K/month, Web Design $5K-15K per project.', category: 'decision' },
-  { id: '7', date: '2026-02-20', content: 'Hit 2,500 followers on Instagram. Engagement rate at 5.1% — strong organic growth from portfolio posts and process videos.', category: 'milestone' },
-  { id: '8', date: '2026-02-18', content: 'Zama website redesign concept approved by client. Full build starts next week. Target delivery in 3 weeks.', category: 'milestone' },
+export const seedClients: Client[] = [
+  { id: '1', name: 'Nexus Protocol', industry: 'DeFi · Token Launch', service: 'Brand Identity', dealValue: 18000, status: 'active', contact: 'Alex Rivera', email: 'alex@nexusprotocol.io' },
+  { id: '2', name: 'Orbital Labs', industry: 'AI Infra · Series A', service: 'Web Design', dealValue: 22000, status: 'active', contact: 'Sam Chen', email: 'sam@orbitallabs.ai' },
+  { id: '3', name: 'Vanta Finance', industry: 'Fintech · B2B', service: 'UI/UX', dealValue: 15000, status: 'active', contact: 'Maria Lopez', email: 'maria@vantafinance.com' },
+  { id: '4', name: 'ChainMind', industry: 'AI × Crypto', service: 'Pitch Deck', dealValue: 8000, status: 'review', contact: 'Kenji Tanaka', email: 'kenji@chainmind.xyz' },
+  { id: '5', name: 'Strata', industry: 'L2 · Mainnet', service: 'Motion Design', dealValue: 12000, status: 'active', contact: 'Elena Vasquez', email: 'elena@strata.network' },
 ];
 
 export const seedDocs: Doc[] = [
-  { id: '1', title: 'Brand Identity Process', project: 'Brand Identity', content: '# Brand Identity Process\n\n## Our Approach\n\n937 follows a **4-phase brand identity process**:\n\n1. **Discovery** — Client interviews, market research, competitive analysis\n2. **Strategy** — Brand positioning, voice & tone, visual direction\n3. **Design** — Logo system, color palette, typography, visual language\n4. **Delivery** — Brand guidelines document, asset library, team training\n\n## Deliverables\n- Logo system (primary, secondary, icon)\n- Color palette (primary, secondary, accent)\n- Typography system\n- Brand guidelines PDF\n- Social media templates\n- Business card & stationery design\n\n## Timeline\n- Discovery: 1 week\n- Strategy: 1 week\n- Design: 2-3 weeks\n- Revisions & Delivery: 1 week', updatedAt: '2026-03-03', tags: ['process', 'brand'] },
-  { id: '2', title: 'Content Production Playbook', project: 'Content Production', content: '# Content Production Playbook\n\n## Strategy\n\n### Content Pillars\n- **Behind the scenes** — studio life, process, team\n- **Client work** — case studies, before/after, results\n- **Industry insights** — trends, tips, thought leadership\n- **Culture** — CDMX life, creative community, events\n\n### Posting Schedule\n1. **Instagram**: 5x/week (3 feed, 2 reels)\n2. **X/Twitter**: Daily threads + engagement\n3. **LinkedIn**: 2x/week (case studies, insights)\n\n### Metrics to Track\n- Engagement rate > 4%\n- Follower growth > 8%/month\n- DM inquiries > 10/week', updatedAt: '2026-03-02', tags: ['content', 'playbook'] },
-  { id: '3', title: 'Social Media Audit Template', project: 'Social Media Management', content: '# Social Media Audit Template\n\n## Audit Framework\n\n### Account Analysis\n- Profile optimization (bio, links, highlights)\n- Content quality and consistency\n- Posting frequency and timing\n- Engagement patterns\n\n### Competitive Analysis\n- Top 5 competitors identified\n- Content strategy comparison\n- Engagement benchmarking\n- Gap and opportunity identification\n\n### Recommendations\n- Content strategy adjustments\n- Posting schedule optimization\n- Community management improvements\n- Paid amplification opportunities\n\n### Reporting\n- Monthly performance reports\n- Quarterly strategy reviews\n- Annual brand health check', updatedAt: '2026-03-01', tags: ['social', 'template'] },
-  { id: '4', title: '937 Brand Guidelines', project: 'Brand Identity', content: '# 937 Studio Brand Guidelines\n\n## Brand Identity\n\n### Colors\n- Primary: #0a0a0a (Black)\n- Accent: #8B5CF6 (Studio Purple)\n- White: #ffffff\n\n### Voice\n- **Confident** but not arrogant\n- **Creative** but strategic\n- **Bold** but refined\n\n### Mission\n"We craft brands that move culture forward. Design, strategy, content — built to dominate."\n\n### Tagline Options\n- "Brands that hit different."\n- "Design with intent."\n- "Culture-forward creative."', updatedAt: '2026-03-04', tags: ['brand', 'design'] },
-  { id: '5', title: 'Client Proposal Template', project: 'Brand Identity', content: '# Client Proposal Template\n\n## Sections\n\n### 1. Introduction\n937 Studio overview and relevant case studies.\n\n### 2. Understanding\nClient brief summary and our interpretation of the challenge.\n\n### 3. Approach\nProposed strategy and creative direction.\n\n### 4. Scope of Work\nDetailed deliverables list with timeline.\n\n```\nPhase 1: Discovery (Week 1)\nPhase 2: Strategy (Week 2)\nPhase 3: Design (Weeks 3-4)\nPhase 4: Delivery (Week 5)\n```\n\n### 5. Investment\nPricing breakdown by phase.\n\n### 6. Case Studies\n2-3 relevant past projects with results.', updatedAt: '2026-03-03', tags: ['proposal', 'template'] },
+  { id: '1', title: 'Nexus Protocol — Brand Proposal', category: 'proposals', date: '2026-02-20', size: '2.4 MB', description: 'Full brand identity proposal for Nexus Protocol DeFi platform' },
+  { id: '2', title: 'Meridian DAO — Brand Proposal', category: 'proposals', date: '2026-03-04', size: '1.8 MB', description: 'Brand identity and visual language proposal for Meridian DAO' },
+  { id: '3', title: 'Orbital Labs — SOW', category: 'contracts', date: '2026-02-15', size: '340 KB', description: 'Statement of work for Orbital Labs website redesign project' },
+  { id: '4', title: 'Vanta Finance — Service Agreement', category: 'contracts', date: '2026-02-10', size: '280 KB', description: 'Service agreement for ongoing UI/UX design retainer' },
+  { id: '5', title: 'Nexus — Brand Guidelines v2', category: 'brand-guidelines', date: '2026-03-03', size: '8.2 MB', description: 'Complete brand guidelines including logo, colors, typography, and usage rules' },
+  { id: '6', title: '937 Studio — Brand Guidelines', category: 'brand-guidelines', date: '2026-02-25', size: '5.6 MB', description: 'Internal brand guidelines for 937 Studio identity' },
+  { id: '7', title: 'INV-001 — Nexus Protocol', category: 'invoices', date: '2026-03-01', size: '120 KB', description: 'Invoice for brand identity phase 1 completion — $18,000' },
+  { id: '8', title: 'INV-002 — Orbital Labs', category: 'invoices', date: '2026-02-28', size: '115 KB', description: 'Invoice for website design deposit — $11,000' },
+  { id: '9', title: 'Team Onboarding Guide', category: 'internal', date: '2026-02-01', size: '1.2 MB', description: 'Onboarding documentation for new 937 team members' },
+  { id: '10', title: 'Design Process Playbook', category: 'internal', date: '2026-02-18', size: '960 KB', description: 'Internal design process and methodology documentation' },
 ];
 
-export const seedTeam: TeamMember[] = [
-  { id: '1', name: 'Trinkster', role: 'Creative Director', status: 'active', currentTask: 'Leading LIQD brand identity project', avatar: '🎨' },
-  { id: '2', name: 'Check Rossi', role: 'Architect', status: 'active', currentTask: 'Designing Zama website architecture', avatar: '🏛️' },
-  { id: '3', name: 'Maya Solano', role: 'Content Strategist', status: 'active', currentTask: 'Planning March content calendars', avatar: '📋' },
-  { id: '4', name: 'Diego Reyes', role: 'Graphic Designer', status: 'active', currentTask: 'Creating social media assets for LIQD', avatar: '🖌️' },
-];
-
-export const seedFinance: FinanceEntry[] = [
-  { id: '1', project: 'Brand Identity', type: 'revenue', category: 'Project Fee', amount: 8000, date: '2026-03-01', description: 'LIQD — brand guidelines project' },
-  { id: '2', project: 'Social Media Management', type: 'revenue', category: 'Retainer', amount: 4500, date: '2026-03-01', description: 'LIQD — monthly social media retainer' },
-  { id: '3', project: 'Content Production', type: 'revenue', category: 'Retainer', amount: 3000, date: '2026-03-01', description: 'Content production retainer — 2 clients' },
-  { id: '4', project: 'Web Design', type: 'revenue', category: 'Project Fee', amount: 5000, date: '2026-03-01', description: 'Zama — website redesign deposit' },
-  { id: '5', project: 'Brand Identity', type: 'revenue', category: 'Project Fee', amount: 3500, date: '2026-03-01', description: 'Small brand refresh project' },
-  { id: '6', project: 'Content Production', type: 'expense', category: 'Freelancers', amount: 2500, date: '2026-03-01', description: 'Freelance photographers & videographers' },
-  { id: '7', project: 'General', type: 'expense', category: 'Software', amount: 800, date: '2026-03-01', description: 'Figma, Adobe CC, Notion, scheduling tools' },
-  { id: '8', project: 'Social Media Management', type: 'expense', category: 'Tools', amount: 400, date: '2026-03-01', description: 'Social media management & analytics tools' },
-  { id: '9', project: 'General', type: 'expense', category: 'Operations', amount: 1500, date: '2026-03-01', description: 'CDMX studio space & utilities' },
-  { id: '10', project: 'General', type: 'expense', category: 'Marketing', amount: 600, date: '2026-03-01', description: '937 own marketing & portfolio site hosting' },
+export const seedInvoices: Invoice[] = [
+  { id: '1', invoiceNumber: 'INV-001', client: 'Nexus Protocol', amount: 18000, status: 'paid', date: '2026-02-15', dueDate: '2026-03-01', description: 'Brand Identity — Phase 1 Complete' },
+  { id: '2', invoiceNumber: 'INV-002', client: 'Orbital Labs', amount: 11000, status: 'paid', date: '2026-02-20', dueDate: '2026-03-05', description: 'Website Design — Deposit (50%)' },
+  { id: '3', invoiceNumber: 'INV-003', client: 'Vanta Finance', amount: 15000, status: 'pending', date: '2026-03-01', dueDate: '2026-03-15', description: 'UI/UX Design — Full Project' },
+  { id: '4', invoiceNumber: 'INV-004', client: 'ChainMind', amount: 8000, status: 'paid', date: '2026-02-25', dueDate: '2026-03-10', description: 'Pitch Deck Design — Complete' },
+  { id: '5', invoiceNumber: 'INV-005', client: 'Strata', amount: 6000, status: 'pending', date: '2026-03-03', dueDate: '2026-03-17', description: 'Motion Design — Phase 1' },
+  { id: '6', invoiceNumber: 'INV-006', client: 'Nexus Protocol', amount: 4500, status: 'paid', date: '2026-03-01', dueDate: '2026-03-15', description: 'Monthly Retainer — Social Media' },
+  { id: '7', invoiceNumber: 'INV-007', client: 'Orbital Labs', amount: 11000, status: 'overdue', date: '2026-02-10', dueDate: '2026-02-25', description: 'Website Design — Phase 2' },
+  { id: '8', invoiceNumber: 'INV-008', client: 'Strata', amount: 6000, status: 'pending', date: '2026-03-05', dueDate: '2026-03-20', description: 'Motion Design — Phase 2' },
 ];
 
 export const seedLeads: Lead[] = [
-  { id: '1', company: 'LIQD', contact: 'Marcus Chen', value: 15000, stage: 'closed', notes: 'Active client — brand identity + social media management retainer. Expanding scope Q2.', lastContact: '2026-03-04' },
-  { id: '2', company: 'Zama', contact: 'Sophie Laurent', value: 12000, stage: 'proposal', notes: 'Website redesign project. Concept approved, finalizing full build scope.', lastContact: '2026-03-03' },
-  { id: '3', company: 'Gnosis', contact: 'Stefan Mueller', value: 20000, stage: 'discovery', notes: 'Full rebrand inquiry. Lost previous agency, looking for new creative partner. High potential.', lastContact: '2026-03-02' },
-  { id: '4', company: 'Aleo', contact: 'David Park', value: 18000, stage: 'call', notes: 'Privacy-focused blockchain. Need brand identity + content strategy for mainnet launch.', lastContact: '2026-03-01' },
-  { id: '5', company: 'Aztec Protocol', contact: 'Elena Vasquez', value: 25000, stage: 'outreach', notes: 'ZK-rollup protocol. Interested in full rebrand + social media management.', lastContact: '2026-03-03' },
-  { id: '6', company: 'Penumbra', contact: 'James Wei', value: 10000, stage: 'call', notes: 'Privacy DeFi protocol. Looking for content production and social media help.', lastContact: '2026-03-02' },
-  { id: '7', company: 'Monad', contact: 'Kenji Tanaka', value: 30000, stage: 'discovery', notes: 'Layer 1 blockchain. Need full brand identity, website, and launch campaign.', lastContact: '2026-02-28' },
-  { id: '8', company: 'Scroll', contact: 'Lisa Zhang', value: 15000, stage: 'proposal', notes: 'ZK-EVM rollup. Brand refresh + content calendar for ecosystem growth phase.', lastContact: '2026-03-02' },
+  { id: '1', company: 'Meridian DAO', contact: 'James Wei', source: 'Referral', value: 15000, stage: 'proposal', temperature: 'hot', notes: 'Referred by Nexus. Call scheduled for Mar 14.', lastContact: '2026-03-04' },
+  { id: '2', company: 'Flux AI', contact: 'Sarah Kim', source: 'Twitter DM', value: 12000, stage: 'contacted', temperature: 'hot', notes: 'Interested in full brand kit. Discovery call Mar 7.', lastContact: '2026-03-03' },
+  { id: '3', company: 'Zenith Labs', contact: 'David Park', source: 'Website', value: 8000, stage: 'new', temperature: 'warm', notes: 'Inbound inquiry for brand identity refresh.', lastContact: '2026-03-02' },
+  { id: '4', company: 'Prism Network', contact: 'Elena Vasquez', source: 'Conference', value: 20000, stage: 'qualified', temperature: 'warm', notes: 'Met at CDMX Web3 Summit. Full rebrand interest.', lastContact: '2026-03-01' },
+  { id: '5', company: 'Aether Protocol', contact: 'Marco Silva', source: 'Cold Outreach', value: 10000, stage: 'contacted', temperature: 'cold', notes: 'Privacy-focused DeFi. Sent portfolio deck.', lastContact: '2026-02-28' },
+  { id: '6', company: 'Monad Labs', contact: 'Lisa Zhang', source: 'Referral', value: 30000, stage: 'new', temperature: 'hot', notes: 'L1 blockchain. Need full brand + website + launch campaign.', lastContact: '2026-03-04' },
+  { id: '7', company: 'Scroll', contact: 'Ryan Chen', source: 'LinkedIn', value: 15000, stage: 'negotiation', temperature: 'warm', notes: 'ZK-EVM rollup. Brand refresh + content calendar.', lastContact: '2026-03-03' },
+  { id: '8', company: 'Penumbra', contact: 'Ava Torres', source: 'Twitter DM', value: 10000, stage: 'qualified', temperature: 'warm', notes: 'Privacy DeFi. Content production + social media.', lastContact: '2026-03-02' },
+  { id: '9', company: 'Aztec', contact: 'Stefan Mueller', source: 'Conference', value: 25000, stage: 'contacted', temperature: 'hot', notes: 'ZK-rollup. Full rebrand + social media management.', lastContact: '2026-03-01' },
+  { id: '10', company: 'Celestia', contact: 'Nina Patel', source: 'Website', value: 18000, stage: 'new', temperature: 'cold', notes: 'Modular blockchain. Inbound inquiry, needs follow-up.', lastContact: '2026-02-25' },
+];
+
+export const seedTeam: TeamMember[] = [
+  { id: '1', name: 'Trinkster', role: 'Creative Director', status: 'online', currentTask: 'Leading Nexus brand identity', avatar: '🎨' },
+  { id: '2', name: 'Check Rossi', role: 'Lead Developer', status: 'online', currentTask: 'Building Orbital Labs website', avatar: '💻' },
+  { id: '3', name: 'Maya', role: 'Content Strategist', status: 'online', currentTask: 'Planning March content calendars', avatar: '📋' },
+  { id: '4', name: 'Leo', role: 'Motion Designer', status: 'away', currentTask: 'Strata launch video storyboard', avatar: '🎬' },
+  { id: '5', name: 'Jade', role: 'UI/UX Designer', status: 'online', currentTask: 'Vanta Finance dashboard design', avatar: '✨' },
+  { id: '6', name: 'Nico', role: 'Brand Strategist', status: 'busy', currentTask: 'Client onboarding deck update', avatar: '🧠' },
+];
+
+export const seedContentPosts: ContentPost[] = [
+  { id: '1', title: 'Vanta case study thread', scheduledDate: '2026-03-05', scheduledTime: '10:00', status: 'scheduled', platform: 'x', content: 'How we redesigned Vanta Finance — a deep dive into our process.' },
+  { id: '2', title: 'Nexus brand reel', scheduledDate: '2026-03-06', scheduledTime: '14:00', status: 'scheduled', platform: 'instagram', content: 'Behind the scenes of the Nexus Protocol brand identity.' },
+  { id: '3', title: 'March newsletter', scheduledDate: '2026-03-09', scheduledTime: '09:00', status: 'draft', platform: 'email', content: 'Monthly studio update with new case studies and insights.' },
+  { id: '4', title: 'Design process blog post', scheduledDate: '2026-03-07', scheduledTime: '11:00', status: 'scheduled', platform: 'blog', content: 'Our 4-phase brand identity process explained.' },
+  { id: '5', title: 'Crypto design trends 2026', scheduledDate: '2026-03-10', scheduledTime: '10:00', status: 'draft', platform: 'x', content: '5 design trends reshaping crypto brands this year.' },
+  { id: '6', title: 'Studio life in CDMX', scheduledDate: '2026-03-04', scheduledTime: '16:00', status: 'published', platform: 'instagram', content: 'A day inside 937 Studio in Mexico City.' },
+  { id: '7', title: 'Brand identity checklist carousel', scheduledDate: '2026-03-12', scheduledTime: '10:00', status: 'draft', platform: 'instagram', content: '7 brand fundamentals every startup needs.' },
+  { id: '8', title: 'Weekly wins roundup', scheduledDate: '2026-03-08', scheduledTime: '16:00', status: 'draft', platform: 'x', content: 'This week at 937: new clients, new work, new milestones.' },
+];
+
+export const seedFinance: FinanceEntry[] = [
+  { id: '1', project: 'Nexus Protocol', type: 'revenue', category: 'Brand Identity', amount: 18000, date: '2026-02-15', description: 'Brand Identity — Phase 1 payment' },
+  { id: '2', project: 'Orbital Labs', type: 'revenue', category: 'Web Design', amount: 11000, date: '2026-02-20', description: 'Website Design — Deposit (50%)' },
+  { id: '3', project: 'ChainMind', type: 'revenue', category: 'Pitch Deck', amount: 8000, date: '2026-02-25', description: 'Pitch Deck — Full payment' },
+  { id: '4', project: 'Vanta Finance', type: 'revenue', category: 'UI/UX', amount: 7500, date: '2026-03-01', description: 'UI/UX Design — Phase 1' },
+  { id: '5', project: 'Strata', type: 'revenue', category: 'Motion Design', amount: 6000, date: '2026-03-03', description: 'Motion Design — Phase 1' },
+  { id: '6', project: 'Nexus Protocol', type: 'revenue', category: 'Retainer', amount: 4500, date: '2026-03-01', description: 'Monthly Retainer — Social Media' },
+  { id: '7', project: 'General', type: 'expense', category: 'Software', amount: 890, date: '2026-03-01', description: 'Figma, Adobe CC, Framer licenses' },
+  { id: '8', project: 'General', type: 'expense', category: 'Office', amount: 2400, date: '2026-03-01', description: 'CDMX studio rent — March' },
+  { id: '9', project: 'Strata', type: 'expense', category: 'Freelancer', amount: 1500, date: '2026-03-02', description: '3D artist freelancer — Strata video' },
+  { id: '10', project: 'General', type: 'expense', category: 'Marketing', amount: 600, date: '2026-02-28', description: 'Twitter/X ads — February campaign' },
+  { id: '11', project: 'Orbital Labs', type: 'expense', category: 'Hosting', amount: 120, date: '2026-03-01', description: 'Vercel Pro — staging environment' },
+  { id: '12', project: 'General', type: 'expense', category: 'Equipment', amount: 1800, date: '2026-02-15', description: 'Studio monitor + peripherals' },
 ];
 
 export const seedAnalytics: AnalyticsData = {
-  xFollowers: [
-    { date: '2026-02-01', count: 1200 },
-    { date: '2026-02-08', count: 1450 },
-    { date: '2026-02-15', count: 1780 },
-    { date: '2026-02-22', count: 2100 },
-    { date: '2026-03-01', count: 2500 },
-    { date: '2026-03-04', count: 2750 },
+  pageViews: 14280,
+  visitors: 3847,
+  bounceRate: 38.2,
+  avgSession: '2m 45s',
+  topPages: [
+    { page: '/portfolio', views: 4120 },
+    { page: '/about', views: 2890 },
+    { page: '/services', views: 2340 },
+    { page: '/blog', views: 1950 },
+    { page: '/contact', views: 1480 },
+    { page: '/case-studies/nexus', views: 1200 },
+    { page: '/careers', views: 300 },
   ],
-  contentPerformance: [
-    { title: 'Brand identity process reel (Instagram)', impressions: 65000, engagement: 3200, clicks: 1100 },
-    { title: 'LIQD case study thread (X)', impressions: 42000, engagement: 2400, clicks: 890 },
-    { title: 'Creative studio life in CDMX', impressions: 38000, engagement: 2100, clicks: 520 },
-    { title: 'Design trends 2026 carousel', impressions: 28000, engagement: 1800, clicks: 640 },
-    { title: 'Before/after brand transformation', impressions: 52000, engagement: 3600, clicks: 950 },
+  trafficSources: [
+    { source: 'Twitter / X', visitors: 1420, percentage: 36.9 },
+    { source: 'Direct', visitors: 980, percentage: 25.5 },
+    { source: 'Google', visitors: 690, percentage: 17.9 },
+    { source: 'Instagram', visitors: 420, percentage: 10.9 },
+    { source: 'Referral', visitors: 337, percentage: 8.8 },
   ],
-  conversionRates: [
-    { source: 'Instagram', visitors: 4200, leads: 52, rate: 1.2 },
-    { source: 'X (Twitter)', visitors: 2800, leads: 38, rate: 1.4 },
-    { source: 'Portfolio Site', visitors: 3500, leads: 42, rate: 1.2 },
-    { source: 'Referrals', visitors: 300, leads: 24, rate: 8.0 },
-    { source: 'LinkedIn', visitors: 1200, leads: 18, rate: 1.5 },
+  weeklyViews: [
+    { day: 'Mon', views: 1840 },
+    { day: 'Tue', views: 2210 },
+    { day: 'Wed', views: 2450 },
+    { day: 'Thu', views: 2100 },
+    { day: 'Fri', views: 1980 },
+    { day: 'Sat', views: 1850 },
+    { day: 'Sun', views: 1850 },
+  ],
+  socialMetrics: [
+    { platform: 'Twitter / X', followers: 12400, engagement: 4.2, growth: 8.5 },
+    { platform: 'Instagram', followers: 8900, engagement: 5.8, growth: 6.2 },
+    { platform: 'LinkedIn', followers: 3200, engagement: 3.1, growth: 4.8 },
+    { platform: 'Farcaster', followers: 1800, engagement: 7.4, growth: 15.3 },
   ],
 };
-
-export const seedContentPosts: ContentPost[] = [
-  { id: '1', title: 'Reel: Our brand identity process in 60 seconds', content: 'Watch how we take a brand from zero to iconic in just 5 weeks.\n\nDiscovery → Strategy → Design → Delivery\n\nEvery detail matters. Every decision is intentional.\n\n#BrandIdentity #Design #937Studio', scheduledDate: '2026-03-04', scheduledTime: '10:00', status: 'published', platform: 'both', impressions: 18000, engagement: 1200 },
-  { id: '2', title: 'Behind the scenes: Studio day in CDMX', content: 'A day inside 937 Studio.\n\nMorning light in our CDMX studio hits different. Coffee, mood boards, and pixel-perfect designs.\n\nThis is where brands are born.', scheduledDate: '2026-03-05', scheduledTime: '14:00', status: 'scheduled', platform: 'both' },
-  { id: '3', title: 'Case study: How we rebranded LIQD', content: 'LIQD came to us with a fragmented brand and unclear positioning.\n\nWe rebuilt everything from the ground up — logo, color system, typography, social presence.\n\nResults: 3x engagement, 40% more inbound leads.', scheduledDate: '2026-03-06', scheduledTime: '11:00', status: 'scheduled', platform: 'both' },
-  { id: '4', title: 'Design trends reshaping crypto brands in 2026', content: 'The best crypto brands are moving away from generic gradients.\n\nHere are 5 design trends dominating the space:\n\n1. Brutalist typography\n2. Monochrome with single accent\n3. Motion-first identity\n4. Utility-driven design systems\n5. Culture-coded visuals', scheduledDate: '2026-03-07', scheduledTime: '09:00', status: 'draft', platform: 'x' },
-  { id: '5', title: 'Carousel: Brand identity checklist for startups', content: 'Every startup needs these brand fundamentals:\n\n1. Clear positioning statement\n2. Logo system (not just one logo)\n3. Color palette with meaning\n4. Typography hierarchy\n5. Voice & tone guidelines\n6. Social media templates\n7. Brand guidelines doc\n\nMissing any? DM us.', scheduledDate: '2026-03-08', scheduledTime: '10:00', status: 'draft', platform: 'both' },
-  { id: '6', title: 'Weekly wins roundup', content: 'This week at 937 Studio:\n- LIQD brand guidelines delivered\n- 2 new client calls booked\n- Instagram hit 2,750 followers\n- Zama website concept approved\n\nBuilding in public. 🔥', scheduledDate: '2026-03-09', scheduledTime: '16:00', status: 'draft', platform: 'x' },
-];

@@ -1,195 +1,173 @@
 'use client';
 import { useState, useMemo } from 'react';
-import MissionBanner from '@/components/MissionBanner';
 import Modal from '@/components/Modal';
+import GlassPanel from '@/components/GlassPanel';
 import { useLocalStorage } from '@/lib/useLocalStorage';
-import { seedFinance } from '@/lib/seed-data';
-import { FinanceEntry } from '@/lib/types';
+import { seedInvoices } from '@/lib/seed-data';
+import { Invoice } from '@/lib/types';
+
+const statusBadge: Record<Invoice['status'], { bg: string; color: string }> = {
+  paid: { bg: 'rgba(62,207,142,.12)', color: 'var(--v-green)' },
+  pending: { bg: 'rgba(245,166,35,.12)', color: 'var(--v-amber)' },
+  overdue: { bg: 'rgba(210,32,40,.12)', color: 'var(--cherry)' },
+};
+
+const emptyInvoice = (): Invoice => ({
+  id: Date.now().toString(),
+  invoiceNumber: `INV-${String(Date.now()).slice(-3)}`,
+  client: '',
+  amount: 0,
+  status: 'pending',
+  date: new Date().toISOString().split('T')[0],
+  dueDate: '',
+  description: '',
+});
 
 export default function FinancePage() {
-  const [entries, setEntries] = useLocalStorage<FinanceEntry[]>('bs-finance', seedFinance);
+  const [invoices, setInvoices] = useLocalStorage<Invoice[]>('mc-invoices', seedInvoices);
   const [modalOpen, setModalOpen] = useState(false);
-  const [editingEntry, setEditingEntry] = useState<FinanceEntry | null>(null);
+  const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null);
 
-  const totalRevenue = useMemo(() => entries.filter(e => e.type === 'revenue').reduce((s, e) => s + e.amount, 0), [entries]);
-  const totalExpenses = useMemo(() => entries.filter(e => e.type === 'expense').reduce((s, e) => s + e.amount, 0), [entries]);
-  const profit = totalRevenue - totalExpenses;
-
-  const projectBreakdown = useMemo(() => {
-    const projects: Record<string, { revenue: number; expenses: number }> = {};
-    entries.forEach(e => {
-      if (!projects[e.project]) projects[e.project] = { revenue: 0, expenses: 0 };
-      if (e.type === 'revenue') projects[e.project].revenue += e.amount;
-      else projects[e.project].expenses += e.amount;
-    });
-    return projects;
-  }, [entries]);
-
-  const maxAmount = useMemo(() => Math.max(...Object.values(projectBreakdown).map(p => Math.max(p.revenue, p.expenses)), 1), [projectBreakdown]);
+  const totalPaid = useMemo(() => invoices.filter(i => i.status === 'paid').reduce((s, i) => s + i.amount, 0), [invoices]);
+  const totalPending = useMemo(() => invoices.filter(i => i.status === 'pending').reduce((s, i) => s + i.amount, 0), [invoices]);
+  const totalOverdue = useMemo(() => invoices.filter(i => i.status === 'overdue').reduce((s, i) => s + i.amount, 0), [invoices]);
 
   const openCreate = () => {
-    setEditingEntry({
-      id: Date.now().toString(),
-      project: 'General',
-      type: 'expense',
-      category: '',
-      amount: 0,
-      date: new Date().toISOString().split('T')[0],
-      description: '',
-    });
+    setEditingInvoice(emptyInvoice());
     setModalOpen(true);
   };
 
-  const openEdit = (entry: FinanceEntry) => {
-    setEditingEntry({ ...entry });
+  const openEdit = (inv: Invoice) => {
+    setEditingInvoice({ ...inv });
     setModalOpen(true);
   };
 
-  const saveEntry = () => {
-    if (!editingEntry) return;
-    setEntries(prev => {
-      const exists = prev.find(e => e.id === editingEntry.id);
-      if (exists) return prev.map(e => e.id === editingEntry.id ? editingEntry : e);
-      return [...prev, editingEntry];
+  const saveInvoice = () => {
+    if (!editingInvoice || !editingInvoice.client.trim()) return;
+    setInvoices(prev => {
+      const exists = prev.find(i => i.id === editingInvoice.id);
+      if (exists) return prev.map(i => i.id === editingInvoice.id ? editingInvoice : i);
+      return [...prev, editingInvoice];
     });
     setModalOpen(false);
-    setEditingEntry(null);
+    setEditingInvoice(null);
   };
 
-  const deleteEntry = (id: string) => {
-    setEntries(prev => prev.filter(e => e.id !== id));
+  const deleteInvoice = (id: string) => {
+    setInvoices(prev => prev.filter(i => i.id !== id));
     setModalOpen(false);
-    setEditingEntry(null);
+    setEditingInvoice(null);
   };
 
   return (
-    <div>
-      <MissionBanner />
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">Finance</h1>
-        <button onClick={openCreate} className="rounded-lg bg-[#8B5CF6] px-4 py-2 text-sm font-medium transition-colors hover:bg-[#7C3AED]">+ Add Entry</button>
+    <div className="p-4">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="font-display text-sm font-bold uppercase tracking-wider">Finance</h1>
+        <button onClick={openCreate} className="glass-btn">+ Invoice</button>
       </div>
 
-      {/* Summary cards */}
-      <div className="mb-6 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border border-[#222] bg-[#111] p-5">
-          <p className="text-xs text-[#888]">Total Revenue</p>
-          <p className="mt-1 text-2xl font-bold text-green-400">${totalRevenue.toLocaleString()}</p>
-        </div>
-        <div className="rounded-xl border border-[#222] bg-[#111] p-5">
-          <p className="text-xs text-[#888]">Total Expenses</p>
-          <p className="mt-1 text-2xl font-bold text-[#8B5CF6]">${totalExpenses.toLocaleString()}</p>
-        </div>
-        <div className="rounded-xl border border-[#222] bg-[#111] p-5">
-          <p className="text-xs text-[#888]">Net Profit</p>
-          <p className={`mt-1 text-2xl font-bold ${profit >= 0 ? 'text-green-400' : 'text-[#8B5CF6]'}`}>${profit.toLocaleString()}</p>
-          <p className="mt-1 text-xs text-[#666]">Margin: {totalRevenue > 0 ? ((profit / totalRevenue) * 100).toFixed(1) : 0}%</p>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+        <GlassPanel className="p-4" elevated>
+          <div className="label text-[9px] mb-2">Collected</div>
+          <div className="font-display text-2xl font-black" style={{ color: 'var(--v-green)' }}>${totalPaid.toLocaleString()}</div>
+          <div className="text-[10px] mt-1" style={{ color: 'var(--text-3)' }}>{invoices.filter(i => i.status === 'paid').length} invoices paid</div>
+        </GlassPanel>
+        <GlassPanel className="p-4" elevated>
+          <div className="label text-[9px] mb-2">Pending</div>
+          <div className="font-display text-2xl font-black" style={{ color: 'var(--v-amber)' }}>${totalPending.toLocaleString()}</div>
+          <div className="text-[10px] mt-1" style={{ color: 'var(--text-3)' }}>{invoices.filter(i => i.status === 'pending').length} invoices pending</div>
+        </GlassPanel>
+        <GlassPanel className="p-4" elevated>
+          <div className="label text-[9px] mb-2">Overdue</div>
+          <div className="font-display text-2xl font-black" style={{ color: 'var(--cherry)' }}>${totalOverdue.toLocaleString()}</div>
+          <div className="text-[10px] mt-1" style={{ color: 'var(--text-3)' }}>{invoices.filter(i => i.status === 'overdue').length} invoices overdue</div>
+        </GlassPanel>
       </div>
 
-      {/* Bar chart by project */}
-      <div className="mb-6 rounded-xl border border-[#222] bg-[#111] p-5">
-        <h2 className="mb-4 text-sm font-medium text-[#888]">Revenue vs Expenses by Project</h2>
-        <div className="space-y-4">
-          {Object.entries(projectBreakdown).map(([project, data]) => (
-            <div key={project}>
-              <div className="mb-1 flex items-center justify-between">
-                <span className="text-sm">{project}</span>
-                <span className="text-xs text-[#888]">
-                  P/L: <span className={data.revenue - data.expenses >= 0 ? 'text-green-400' : 'text-[#8B5CF6]'}>
-                    ${(data.revenue - data.expenses).toLocaleString()}
-                  </span>
-                </span>
-              </div>
-              <div className="flex gap-2">
-                <div className="flex-1">
-                  <div className="h-6 rounded bg-[#0a0a0a]">
-                    <div className="flex h-full items-center rounded bg-green-500/20 px-2 text-[10px] text-green-400" style={{ width: `${(data.revenue / maxAmount) * 100}%` }}>
-                      ${data.revenue.toLocaleString()}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <div className="h-6 rounded bg-[#0a0a0a]">
-                    <div className="flex h-full items-center rounded bg-[#8B5CF6]/20 px-2 text-[10px] text-[#8B5CF6]" style={{ width: `${(data.expenses / maxAmount) * 100}%` }}>
-                      ${data.expenses.toLocaleString()}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+      <GlassPanel className="overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr style={{ borderBottom: '1px solid rgba(223,101,110,.1)' }}>
+                <th className="px-4 py-3 text-left label text-[9px]">Invoice</th>
+                <th className="px-4 py-3 text-left label text-[9px]">Client</th>
+                <th className="px-4 py-3 text-left label text-[9px]">Description</th>
+                <th className="px-4 py-3 text-right label text-[9px]">Amount</th>
+                <th className="px-4 py-3 text-left label text-[9px]">Date</th>
+                <th className="px-4 py-3 text-left label text-[9px]">Due</th>
+                <th className="px-4 py-3 text-center label text-[9px]">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {invoices.map(inv => (
+                <tr
+                  key={inv.id}
+                  onClick={() => openEdit(inv)}
+                  className="cursor-pointer transition-colors hover:bg-white/[.02]"
+                  style={{ borderBottom: '1px solid rgba(223,101,110,.06)' }}
+                >
+                  <td className="px-4 py-2.5 font-mono text-xs font-bold">{inv.invoiceNumber}</td>
+                  <td className="px-4 py-2.5 text-xs font-semibold">{inv.client}</td>
+                  <td className="px-4 py-2.5 text-xs" style={{ color: 'var(--text-2)' }}>{inv.description}</td>
+                  <td className="px-4 py-2.5 text-xs font-mono font-bold text-right">${inv.amount.toLocaleString()}</td>
+                  <td className="px-4 py-2.5 font-mono text-[10px]" style={{ color: 'var(--text-3)' }}>{inv.date}</td>
+                  <td className="px-4 py-2.5 font-mono text-[10px]" style={{ color: 'var(--text-3)' }}>{inv.dueDate}</td>
+                  <td className="px-4 py-2.5 text-center">
+                    <span className="text-[9px] font-bold uppercase px-2 py-1 rounded" style={{ background: statusBadge[inv.status].bg, color: statusBadge[inv.status].color }}>{inv.status}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
+      </GlassPanel>
 
-      {/* Transaction list */}
-      <div className="rounded-xl border border-[#222] bg-[#111] overflow-hidden">
-        <div className="border-b border-[#222] px-5 py-3">
-          <h2 className="text-sm font-medium text-[#888]">Transactions</h2>
-        </div>
-        <div className="divide-y divide-[#1a1a1a]">
-          {entries.map(entry => (
-            <div
-              key={entry.id}
-              onClick={() => openEdit(entry)}
-              className="flex cursor-pointer items-center justify-between px-5 py-3 transition-colors hover:bg-[#1a1a1a]"
-            >
-              <div className="flex items-center gap-3">
-                <div className={`h-2 w-2 rounded-full ${entry.type === 'revenue' ? 'bg-green-500' : 'bg-[#8B5CF6]'}`} />
-                <div>
-                  <p className="text-sm">{entry.description}</p>
-                  <p className="text-[10px] text-[#666]">{entry.project} · {entry.category}</p>
-                </div>
-              </div>
-              <span className={`text-sm font-medium ${entry.type === 'revenue' ? 'text-green-400' : 'text-[#8B5CF6]'}`}>
-                {entry.type === 'revenue' ? '+' : '-'}${entry.amount.toLocaleString()}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <Modal isOpen={modalOpen} onClose={() => { setModalOpen(false); setEditingEntry(null); }} title={editingEntry && entries.find(e => e.id === editingEntry.id) ? 'Edit Entry' : 'New Entry'}>
-        {editingEntry && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+      <Modal isOpen={modalOpen} onClose={() => { setModalOpen(false); setEditingInvoice(null); }} title={editingInvoice && invoices.find(i => i.id === editingInvoice.id) ? 'Edit Invoice' : 'New Invoice'}>
+        {editingInvoice && (
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="mb-1 block text-xs text-[#888]">Type</label>
-                <select value={editingEntry.type} onChange={e => setEditingEntry({ ...editingEntry, type: e.target.value as 'revenue' | 'expense' })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]">
-                  <option value="revenue">Revenue</option>
-                  <option value="expense">Expense</option>
-                </select>
+                <label className="label text-[9px] mb-1">Invoice #</label>
+                <input value={editingInvoice.invoiceNumber} onChange={e => setEditingInvoice({ ...editingInvoice, invoiceNumber: e.target.value })} className="glass-input" />
               </div>
               <div>
-                <label className="mb-1 block text-xs text-[#888]">Amount ($)</label>
-                <input type="number" value={editingEntry.amount} onChange={e => setEditingEntry({ ...editingEntry, amount: Number(e.target.value) })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="mb-1 block text-xs text-[#888]">Project</label>
-                <input value={editingEntry.project} onChange={e => setEditingEntry({ ...editingEntry, project: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
-              </div>
-              <div>
-                <label className="mb-1 block text-xs text-[#888]">Category</label>
-                <input value={editingEntry.category} onChange={e => setEditingEntry({ ...editingEntry, category: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
+                <label className="label text-[9px] mb-1">Client</label>
+                <input value={editingInvoice.client} onChange={e => setEditingInvoice({ ...editingInvoice, client: e.target.value })} className="glass-input" placeholder="Client name..." />
               </div>
             </div>
             <div>
-              <label className="mb-1 block text-xs text-[#888]">Description</label>
-              <input value={editingEntry.description} onChange={e => setEditingEntry({ ...editingEntry, description: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
+              <label className="label text-[9px] mb-1">Description</label>
+              <input value={editingInvoice.description} onChange={e => setEditingInvoice({ ...editingInvoice, description: e.target.value })} className="glass-input" placeholder="Description..." />
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="label text-[9px] mb-1">Amount ($)</label>
+                <input type="number" value={editingInvoice.amount} onChange={e => setEditingInvoice({ ...editingInvoice, amount: Number(e.target.value) })} className="glass-input" />
+              </div>
+              <div>
+                <label className="label text-[9px] mb-1">Date</label>
+                <input type="date" value={editingInvoice.date} onChange={e => setEditingInvoice({ ...editingInvoice, date: e.target.value })} className="glass-input" />
+              </div>
+              <div>
+                <label className="label text-[9px] mb-1">Due Date</label>
+                <input type="date" value={editingInvoice.dueDate} onChange={e => setEditingInvoice({ ...editingInvoice, dueDate: e.target.value })} className="glass-input" />
+              </div>
             </div>
             <div>
-              <label className="mb-1 block text-xs text-[#888]">Date</label>
-              <input type="date" value={editingEntry.date} onChange={e => setEditingEntry({ ...editingEntry, date: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
+              <label className="label text-[9px] mb-1">Status</label>
+              <select value={editingInvoice.status} onChange={e => setEditingInvoice({ ...editingInvoice, status: e.target.value as Invoice['status'] })} className="glass-select">
+                <option value="paid">Paid</option>
+                <option value="pending">Pending</option>
+                <option value="overdue">Overdue</option>
+              </select>
             </div>
             <div className="flex justify-between pt-2">
-              {entries.find(e => e.id === editingEntry.id) && (
-                <button onClick={() => deleteEntry(editingEntry.id)} className="rounded-lg px-4 py-2 text-sm text-[#8B5CF6] transition-colors hover:bg-[#8B5CF6]/10">Delete</button>
+              {invoices.find(i => i.id === editingInvoice.id) && (
+                <button onClick={() => deleteInvoice(editingInvoice.id)} className="text-xs" style={{ color: 'var(--cherry)' }}>Delete</button>
               )}
               <div className="ml-auto flex gap-2">
-                <button onClick={() => { setModalOpen(false); setEditingEntry(null); }} className="rounded-lg border border-[#222] px-4 py-2 text-sm text-[#888] transition-colors hover:bg-[#1a1a1a]">Cancel</button>
-                <button onClick={saveEntry} className="rounded-lg bg-[#8B5CF6] px-4 py-2 text-sm font-medium transition-colors hover:bg-[#7C3AED]">Save</button>
+                <button onClick={() => { setModalOpen(false); setEditingInvoice(null); }} className="glass-btn">Cancel</button>
+                <button onClick={saveInvoice} className="glass-btn" style={{ background: 'linear-gradient(135deg, rgba(213,56,66,.2), rgba(198,31,37,.15))', color: '#fff' }}>Save</button>
               </div>
             </div>
           </div>

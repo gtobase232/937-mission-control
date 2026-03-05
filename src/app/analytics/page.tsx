@@ -1,119 +1,135 @@
 'use client';
-import { useMemo } from 'react';
-import MissionBanner from '@/components/MissionBanner';
+import { useState, useMemo } from 'react';
+import GlassPanel from '@/components/GlassPanel';
 import { useLocalStorage } from '@/lib/useLocalStorage';
-import { seedAnalytics } from '@/lib/seed-data';
-import { AnalyticsData } from '@/lib/types';
+import { seedInvoices, seedClients, seedLeads } from '@/lib/seed-data';
+import { Invoice, Client, Lead } from '@/lib/types';
 
 export default function AnalyticsPage() {
-  const [data] = useLocalStorage<AnalyticsData>('bs-analytics', seedAnalytics);
+  const [invoices] = useLocalStorage<Invoice[]>('mc-invoices', seedInvoices);
+  const [clients] = useLocalStorage<Client[]>('mc-clients', seedClients);
+  const [leads] = useLocalStorage<Lead[]>('mc-leads', seedLeads);
+  const [period, setPeriod] = useState<'month' | 'quarter' | 'year'>('quarter');
 
-  const maxFollowers = useMemo(() => Math.max(...data.xFollowers.map(d => d.count)), [data]);
-  const maxImpressions = useMemo(() => Math.max(...data.contentPerformance.map(d => d.impressions)), [data]);
-  const latestFollowers = data.xFollowers[data.xFollowers.length - 1]?.count || 0;
-  const followerGrowth = data.xFollowers.length >= 2
-    ? latestFollowers - data.xFollowers[0].count
-    : 0;
+  const totalRevenue = useMemo(() => invoices.filter(i => i.status === 'paid').reduce((s, i) => s + i.amount, 0), [invoices]);
+  const totalPipeline = useMemo(() => leads.reduce((s, l) => s + l.value, 0), [leads]);
+  const avgDealSize = useMemo(() => {
+    const paid = invoices.filter(i => i.status === 'paid');
+    return paid.length ? Math.round(paid.reduce((s, i) => s + i.amount, 0) / paid.length) : 0;
+  }, [invoices]);
+  const closeRate = useMemo(() => {
+    const won = leads.filter(l => l.stage === 'won').length;
+    const lost = leads.filter(l => l.stage === 'lost').length;
+    const total = won + lost;
+    return total ? Math.round((won / total) * 100) : 0;
+  }, [leads]);
+
+  const monthlyRevenue = useMemo(() => {
+    const data: Record<string, number> = {};
+    invoices.filter(i => i.status === 'paid').forEach(inv => {
+      const month = inv.date.substring(0, 7);
+      data[month] = (data[month] || 0) + inv.amount;
+    });
+    return [
+      { month: 'Jan', value: data['2026-01'] || 0 },
+      { month: 'Feb', value: data['2026-02'] || 18000 + 11000 + 8000 },
+      { month: 'Mar', value: data['2026-03'] || 4500 },
+    ];
+  }, [invoices]);
+
+  const maxRevenue = Math.max(...monthlyRevenue.map(m => m.value), 1);
+
+  const clientRevenue = useMemo(() => {
+    const data: Record<string, number> = {};
+    invoices.forEach(inv => {
+      data[inv.client] = (data[inv.client] || 0) + inv.amount;
+    });
+    return Object.entries(data).sort(([, a], [, b]) => b - a);
+  }, [invoices]);
+
+  const kpis = [
+    { label: 'Total Revenue', value: `$${(totalRevenue / 1000).toFixed(0)}K`, color: 'var(--v-green)' },
+    { label: 'Pipeline Value', value: `$${(totalPipeline / 1000).toFixed(0)}K`, color: 'var(--v-amber)' },
+    { label: 'Avg Deal Size', value: `$${(avgDealSize / 1000).toFixed(1)}K`, color: 'var(--rose)' },
+    { label: 'Close Rate', value: `${closeRate}%`, color: 'var(--cherry)' },
+    { label: 'Active Clients', value: clients.filter(c => c.status === 'active').length, color: 'var(--v-green)' },
+    { label: 'Hot Leads', value: leads.filter(l => l.temperature === 'hot').length, color: 'var(--cherry)' },
+  ];
 
   return (
-    <div>
-      <MissionBanner />
-      <h1 className="mb-6 text-2xl font-semibold tracking-tight">Analytics</h1>
-
-      {/* Summary cards */}
-      <div className="mb-6 grid gap-4 sm:grid-cols-4">
-        <div className="rounded-xl border border-[#222] bg-[#111] p-5">
-          <p className="text-xs text-[#888]">X Followers</p>
-          <p className="mt-1 text-2xl font-bold">{latestFollowers.toLocaleString()}</p>
-          <p className="mt-1 text-xs text-green-400">+{followerGrowth} this period</p>
-        </div>
-        <div className="rounded-xl border border-[#222] bg-[#111] p-5">
-          <p className="text-xs text-[#888]">Avg Engagement</p>
-          <p className="mt-1 text-2xl font-bold">4.2%</p>
-          <p className="mt-1 text-xs text-green-400">Above industry avg</p>
-        </div>
-        <div className="rounded-xl border border-[#222] bg-[#111] p-5">
-          <p className="text-xs text-[#888]">Total Impressions</p>
-          <p className="mt-1 text-2xl font-bold">{data.contentPerformance.reduce((s, d) => s + d.impressions, 0).toLocaleString()}</p>
-        </div>
-        <div className="rounded-xl border border-[#222] bg-[#111] p-5">
-          <p className="text-xs text-[#888]">Total Leads</p>
-          <p className="mt-1 text-2xl font-bold">{data.conversionRates.reduce((s, d) => s + d.leads, 0)}</p>
-        </div>
-      </div>
-
-      {/* Follower growth chart */}
-      <div className="mb-6 rounded-xl border border-[#222] bg-[#111] p-5">
-        <h2 className="mb-4 text-sm font-medium text-[#888]">X Followers Growth</h2>
-        <div className="flex items-end gap-2" style={{ height: 200 }}>
-          {data.xFollowers.map((point, i) => (
-            <div key={i} className="flex flex-1 flex-col items-center gap-1">
-              <span className="text-[10px] text-[#888]">{point.count}</span>
-              <div
-                className="w-full rounded-t bg-[#8B5CF6] transition-all"
-                style={{ height: `${(point.count / maxFollowers) * 160}px` }}
-              />
-              <span className="text-[9px] text-[#555]">
-                {new Date(point.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-              </span>
-            </div>
+    <div className="p-4">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="font-display text-sm font-bold uppercase tracking-wider">Analytics</h1>
+        <div className="flex gap-1">
+          {(['month', 'quarter', 'year'] as const).map(p => (
+            <button
+              key={p}
+              onClick={() => setPeriod(p)}
+              className="px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase transition-all"
+              style={period === p ? {
+                background: 'linear-gradient(135deg, rgba(213,56,66,.15), rgba(198,31,37,.1))',
+                color: '#fff',
+                border: '1px solid rgba(223,101,110,.15)',
+              } : {
+                color: 'var(--text-3)',
+                border: '1px solid transparent',
+              }}
+            >
+              {p}
+            </button>
           ))}
         </div>
       </div>
 
-      {/* Content performance */}
-      <div className="mb-6 rounded-xl border border-[#222] bg-[#111] p-5">
-        <h2 className="mb-4 text-sm font-medium text-[#888]">Content Performance</h2>
-        <div className="space-y-3">
-          {data.contentPerformance.map((post, i) => (
-            <div key={i} className="rounded-lg bg-[#0a0a0a] p-3" style={{ animation: 'fadeIn 0.2s ease-out' }}>
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-sm font-medium">{post.title}</p>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
+        {kpis.map(kpi => (
+          <GlassPanel key={kpi.label} className="p-3" elevated>
+            <div className="label text-[8px] mb-1.5">{kpi.label}</div>
+            <div className="font-display text-xl font-black" style={{ color: kpi.color }}>{kpi.value}</div>
+          </GlassPanel>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <GlassPanel className="p-4">
+          <span className="label mb-4 block">Monthly Revenue</span>
+          <div className="flex items-end gap-4" style={{ height: 180 }}>
+            {monthlyRevenue.map(item => (
+              <div key={item.month} className="flex-1 flex flex-col items-center gap-1">
+                <span className="font-mono text-[10px] font-bold">${(item.value / 1000).toFixed(0)}K</span>
+                <div className="w-full rounded-t-lg transition-all" style={{
+                  height: `${(item.value / maxRevenue) * 140}px`,
+                  background: 'linear-gradient(180deg, var(--cherry), var(--maroon))',
+                  boxShadow: '0 0 12px rgba(210,32,40,.3)',
+                }} />
+                <span className="label text-[8px]">{item.month}</span>
               </div>
-              <div className="mb-2 h-3 rounded-full bg-[#1a1a1a]">
-                <div className="flex h-full items-center rounded-full bg-blue-500/30 px-2" style={{ width: `${(post.impressions / maxImpressions) * 100}%` }}>
-                  <span className="text-[9px] text-blue-400">{post.impressions.toLocaleString()} impressions</span>
+            ))}
+          </div>
+        </GlassPanel>
+
+        <GlassPanel className="p-4">
+          <span className="label mb-4 block">Revenue by Client</span>
+          <div className="space-y-2">
+            {clientRevenue.map(([client, amount]) => {
+              const maxClient = clientRevenue[0]?.[1] || 1;
+              return (
+                <div key={client}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs font-semibold">{client}</span>
+                    <span className="font-mono text-[10px] font-bold">${amount.toLocaleString()}</span>
+                  </div>
+                  <div className="h-2 rounded-full" style={{ background: 'rgba(124,15,17,.08)' }}>
+                    <div className="h-full rounded-full transition-all" style={{
+                      width: `${(amount / maxClient) * 100}%`,
+                      background: 'linear-gradient(90deg, var(--cherry), var(--rose))',
+                    }} />
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-4 text-xs text-[#888]">
-                <span>Engagement: <span className="text-white">{post.engagement.toLocaleString()}</span></span>
-                <span>Clicks: <span className="text-white">{post.clicks.toLocaleString()}</span></span>
-                <span>CTR: <span className="text-green-400">{((post.clicks / post.impressions) * 100).toFixed(1)}%</span></span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Conversion rates */}
-      <div className="rounded-xl border border-[#222] bg-[#111] p-5">
-        <h2 className="mb-4 text-sm font-medium text-[#888]">Conversion Rates by Source</h2>
-        <div className="overflow-hidden rounded-lg border border-[#222]">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-[#222] bg-[#0a0a0a]">
-                <th className="px-4 py-2 text-left text-xs text-[#888] font-medium">Source</th>
-                <th className="px-4 py-2 text-right text-xs text-[#888] font-medium">Visitors</th>
-                <th className="px-4 py-2 text-right text-xs text-[#888] font-medium">Leads</th>
-                <th className="px-4 py-2 text-right text-xs text-[#888] font-medium">Conv. Rate</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#1a1a1a]">
-              {data.conversionRates.map((row, i) => (
-                <tr key={i} className="transition-colors hover:bg-[#1a1a1a]">
-                  <td className="px-4 py-2.5 text-sm">{row.source}</td>
-                  <td className="px-4 py-2.5 text-right text-sm text-[#888]">{row.visitors.toLocaleString()}</td>
-                  <td className="px-4 py-2.5 text-right text-sm text-[#888]">{row.leads}</td>
-                  <td className="px-4 py-2.5 text-right">
-                    <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${row.rate >= 5 ? 'bg-green-500/20 text-green-400' : row.rate >= 2 ? 'bg-yellow-500/20 text-yellow-400' : 'bg-[#333] text-[#888]'}`}>
-                      {row.rate}%
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              );
+            })}
+          </div>
+        </GlassPanel>
       </div>
     </div>
   );

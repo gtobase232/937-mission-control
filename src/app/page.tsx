@@ -1,191 +1,102 @@
 'use client';
-import { useState } from 'react';
-import MissionBanner from '@/components/MissionBanner';
-import Modal from '@/components/Modal';
+import Link from 'next/link';
 import { useLocalStorage } from '@/lib/useLocalStorage';
-import { seedTasks } from '@/lib/seed-data';
-import { Task, TaskStatus, Assignee, Priority } from '@/lib/types';
+import { seedTasks, seedClients, seedLeads, seedCalendarEvents, seedContentPosts, seedInvoices } from '@/lib/seed-data';
+import { Task, Client, Lead, CalendarEvent, ContentPost, Invoice } from '@/lib/types';
+import GlassPanel from '@/components/GlassPanel';
 
-const columns: { key: TaskStatus; label: string }[] = [
-  { key: 'backlog', label: 'Backlog' },
-  { key: 'todo', label: 'To Do' },
-  { key: 'in-progress', label: 'In Progress' },
-  { key: 'review', label: 'Review' },
-  { key: 'done', label: 'Done' },
-];
+export default function Dashboard() {
+  const [tasks] = useLocalStorage<Task[]>('mc-tasks', seedTasks);
+  const [clients] = useLocalStorage<Client[]>('mc-clients', seedClients);
+  const [leads] = useLocalStorage<Lead[]>('mc-leads', seedLeads);
+  const [events] = useLocalStorage<CalendarEvent[]>('mc-calendar', seedCalendarEvents);
+  const [content] = useLocalStorage<ContentPost[]>('mc-content', seedContentPosts);
+  const [invoices] = useLocalStorage<Invoice[]>('mc-invoices', seedInvoices);
 
-const priorityColors: Record<Priority, string> = {
-  low: 'bg-[#333] text-[#888]',
-  medium: 'bg-blue-500/20 text-blue-400',
-  high: 'bg-yellow-500/20 text-yellow-400',
-  critical: 'bg-[#8B5CF6]/20 text-[#8B5CF6]',
-};
+  const activeTasks = tasks.filter(t => t.status !== 'done').length;
+  const inProgress = tasks.filter(t => t.status === 'in-progress').length;
+  const activeClients = clients.filter(c => c.status === 'active').length;
+  const hotLeads = leads.filter(l => l.temperature === 'hot').length;
+  const upcomingEvents = events.filter(e => e.date >= '2026-03-05').slice(0, 5);
+  const scheduledContent = content.filter(c => c.status === 'scheduled').length;
+  const totalRevenue = invoices.filter(i => i.status === 'paid').reduce((s, i) => s + i.amount, 0);
+  const pendingRevenue = invoices.filter(i => i.status === 'pending').reduce((s, i) => s + i.amount, 0);
+  const pipelineValue = leads.reduce((s, l) => s + l.value, 0);
 
-const emptyTask = (): Task => ({
-  id: Date.now().toString(),
-  title: '',
-  description: '',
-  assignee: 'Trinkster',
-  priority: 'medium',
-  status: 'backlog',
-  dueDate: '',
-  createdAt: new Date().toISOString().split('T')[0],
-});
-
-export default function TaskBoard() {
-  const [tasks, setTasks] = useLocalStorage<Task[]>('bs-tasks', seedTasks);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editingTask, setEditingTask] = useState<Task | null>(null);
-  const [draggedTask, setDraggedTask] = useState<string | null>(null);
-
-  const openCreate = (status: TaskStatus) => {
-    const t = emptyTask();
-    t.status = status;
-    setEditingTask(t);
-    setModalOpen(true);
-  };
-
-  const openEdit = (task: Task) => {
-    setEditingTask({ ...task });
-    setModalOpen(true);
-  };
-
-  const saveTask = () => {
-    if (!editingTask || !editingTask.title.trim()) return;
-    setTasks(prev => {
-      const exists = prev.find(t => t.id === editingTask.id);
-      if (exists) return prev.map(t => t.id === editingTask.id ? editingTask : t);
-      return [...prev, editingTask];
-    });
-    setModalOpen(false);
-    setEditingTask(null);
-  };
-
-  const deleteTask = (id: string) => {
-    setTasks(prev => prev.filter(t => t.id !== id));
-    setModalOpen(false);
-    setEditingTask(null);
-  };
-
-  const handleDrop = (status: TaskStatus) => {
-    if (!draggedTask) return;
-    setTasks(prev => prev.map(t => t.id === draggedTask ? { ...t, status } : t));
-    setDraggedTask(null);
-  };
+  const cards = [
+    { label: 'Active Tasks', value: activeTasks, sub: `${inProgress} in progress`, href: '/tasks', icon: '9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11' },
+    { label: 'Clients', value: activeClients, sub: `${clients.length} total`, href: '/clients', icon: '17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100-8 4 4 0 000 8' },
+    { label: 'Hot Leads', value: hotLeads, sub: `$${(pipelineValue / 1000).toFixed(0)}K pipeline`, href: '/leads', icon: '12 12m-10 0a10 10 0 1020 0 10 10 0 10-20 0M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0' },
+    { label: 'Revenue', value: `$${(totalRevenue / 1000).toFixed(0)}K`, sub: `$${(pendingRevenue / 1000).toFixed(0)}K pending`, href: '/finance', icon: '12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6' },
+    { label: 'Scheduled Content', value: scheduledContent, sub: `${content.length} total posts`, href: '/content-calendar', icon: '21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z' },
+    { label: 'Upcoming Events', value: upcomingEvents.length, sub: 'this month', href: '/calendar', icon: '3 4h18v18H3zM16 2v4M8 2v4M3 10h18' },
+  ];
 
   return (
-    <div>
-      <MissionBanner />
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">Task Board</h1>
-        <button onClick={() => openCreate('backlog')} className="rounded-lg bg-[#8B5CF6] px-4 py-2 text-sm font-medium transition-colors hover:bg-[#7C3AED]">
-          + New Task
-        </button>
+    <div className="p-4 space-y-4">
+      <div className="flex items-center justify-between mb-2">
+        <h1 className="font-display text-sm font-bold uppercase tracking-wider">Mission Control</h1>
+        <span className="font-mono text-xs" style={{ color: 'var(--text-3)' }}>March 2026</span>
       </div>
 
-      <div className="flex gap-4 overflow-x-auto pb-4">
-        {columns.map(col => {
-          const colTasks = tasks.filter(t => t.status === col.key);
-          return (
-            <div
-              key={col.key}
-              className="min-w-[260px] flex-1"
-              onDragOver={e => e.preventDefault()}
-              onDrop={() => handleDrop(col.key)}
-            >
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="text-sm font-medium text-[#888]">{col.label}</h3>
-                <span className="rounded-full bg-[#1a1a1a] px-2 py-0.5 text-xs text-[#666]">{colTasks.length}</span>
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+        {cards.map(card => (
+          <Link key={card.label} href={card.href}>
+            <GlassPanel className="p-4 cursor-pointer transition-all hover:scale-[1.02]">
+              <div className="flex items-start justify-between mb-3">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(213,56,66,.15), rgba(124,15,17,.1))', border: '1px solid rgba(223,101,110,.12)' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cherry)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={`M${card.icon}`} />
+                  </svg>
+                </div>
+                <span className="label text-[9px]">{card.label}</span>
               </div>
-              <div className="space-y-2">
-                {colTasks.map(task => (
-                  <div
-                    key={task.id}
-                    draggable
-                    onDragStart={() => setDraggedTask(task.id)}
-                    onClick={() => openEdit(task)}
-                    className="cursor-pointer rounded-lg border border-[#222] bg-[#111] p-3 transition-all hover:border-[#333] hover:bg-[#1a1a1a]"
-                    style={{ animation: 'fadeIn 0.2s ease-out' }}
-                  >
-                    <div className="mb-2 flex items-start justify-between gap-2">
-                      <h4 className="text-sm font-medium leading-snug">{task.title}</h4>
-                      <span className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${priorityColors[task.priority]}`}>
-                        {task.priority}
-                      </span>
-                    </div>
-                    <p className="mb-3 text-xs text-[#666] line-clamp-2">{task.description}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] text-[#555]">{task.assignee}</span>
-                      {task.dueDate && <span className="text-[10px] text-[#555]">{task.dueDate}</span>}
-                    </div>
-                  </div>
-                ))}
-                <button
-                  onClick={() => openCreate(col.key)}
-                  className="w-full rounded-lg border border-dashed border-[#222] p-2 text-xs text-[#555] transition-colors hover:border-[#444] hover:text-[#888]"
-                >
-                  + Add task
-                </button>
-              </div>
-            </div>
-          );
-        })}
+              <div className="font-display text-2xl font-black">{card.value}</div>
+              <div className="text-xs mt-1" style={{ color: 'var(--text-3)' }}>{card.sub}</div>
+            </GlassPanel>
+          </Link>
+        ))}
       </div>
 
-      <Modal isOpen={modalOpen} onClose={() => { setModalOpen(false); setEditingTask(null); }} title={editingTask && tasks.find(t => t.id === editingTask.id) ? 'Edit Task' : 'New Task'}>
-        {editingTask && (
-          <div className="space-y-4">
-            <div>
-              <label className="mb-1 block text-xs text-[#888]">Title</label>
-              <input value={editingTask.title} onChange={e => setEditingTask({ ...editingTask, title: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" placeholder="Task title..." />
-            </div>
-            <div>
-              <label className="mb-1 block text-xs text-[#888]">Description</label>
-              <textarea value={editingTask.description} onChange={e => setEditingTask({ ...editingTask, description: e.target.value })} rows={3} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" placeholder="Description..." />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="mb-1 block text-xs text-[#888]">Assignee</label>
-                <select value={editingTask.assignee} onChange={e => setEditingTask({ ...editingTask, assignee: e.target.value as Assignee })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]">
-                  <option value="Trinkster">Trinkster</option>
-                  <option value="Check Rossi">Check Rossi</option>
-                  <option value="Both">Both</option>
-                </select>
-              </div>
-              <div>
-                <label className="mb-1 block text-xs text-[#888]">Priority</label>
-                <select value={editingTask.priority} onChange={e => setEditingTask({ ...editingTask, priority: e.target.value as Priority })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]">
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                  <option value="critical">Critical</option>
-                </select>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="mb-1 block text-xs text-[#888]">Status</label>
-                <select value={editingTask.status} onChange={e => setEditingTask({ ...editingTask, status: e.target.value as TaskStatus })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]">
-                  {columns.map(c => <option key={c.key} value={c.key}>{c.label}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="mb-1 block text-xs text-[#888]">Due Date</label>
-                <input type="date" value={editingTask.dueDate} onChange={e => setEditingTask({ ...editingTask, dueDate: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
-              </div>
-            </div>
-            <div className="flex justify-between pt-2">
-              {tasks.find(t => t.id === editingTask.id) && (
-                <button onClick={() => deleteTask(editingTask.id)} className="rounded-lg px-4 py-2 text-sm text-[#8B5CF6] transition-colors hover:bg-[#8B5CF6]/10">Delete</button>
-              )}
-              <div className="ml-auto flex gap-2">
-                <button onClick={() => { setModalOpen(false); setEditingTask(null); }} className="rounded-lg border border-[#222] px-4 py-2 text-sm text-[#888] transition-colors hover:bg-[#1a1a1a]">Cancel</button>
-                <button onClick={saveTask} className="rounded-lg bg-[#8B5CF6] px-4 py-2 text-sm font-medium transition-colors hover:bg-[#7C3AED]">Save</button>
-              </div>
-            </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <GlassPanel className="p-4">
+          <div className="flex items-center justify-between mb-3">
+            <span className="label">Upcoming Deadlines</span>
+            <Link href="/calendar" className="glass-btn text-[10px]">View Calendar</Link>
           </div>
-        )}
-      </Modal>
+          <div className="space-y-2">
+            {upcomingEvents.map(ev => (
+              <div key={ev.id} className="flex items-center gap-3 px-3 py-2 rounded-lg" style={{ background: 'rgba(124,15,17,.06)', border: '1px solid rgba(223,101,110,.06)' }}>
+                <span className="w-2 h-2 rounded-full shrink-0" style={{ background: ev.type === 'deadline' ? 'var(--cherry)' : ev.type === 'meeting' ? 'var(--v-green)' : ev.type === 'milestone' ? 'var(--v-amber)' : 'var(--text-3)' }} />
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-semibold truncate">{ev.title}</div>
+                  <div className="text-[10px] font-mono" style={{ color: 'var(--text-3)' }}>{ev.date} {ev.time !== 'All Day' ? `· ${ev.time}` : ''}</div>
+                </div>
+                <span className="text-[9px] font-semibold uppercase px-2 py-0.5 rounded" style={{ background: 'rgba(213,56,66,.1)', color: 'var(--rose)' }}>{ev.type}</span>
+              </div>
+            ))}
+          </div>
+        </GlassPanel>
+
+        <GlassPanel className="p-4">
+          <div className="flex items-center justify-between mb-3">
+            <span className="label">Active Tasks</span>
+            <Link href="/tasks" className="glass-btn text-[10px]">View Board</Link>
+          </div>
+          <div className="space-y-2">
+            {tasks.filter(t => t.status === 'in-progress' || t.status === 'todo').slice(0, 5).map(task => (
+              <div key={task.id} className="flex items-center gap-3 px-3 py-2 rounded-lg" style={{ background: 'rgba(124,15,17,.06)', border: '1px solid rgba(223,101,110,.06)' }}>
+                <span className="w-2 h-2 rounded-full shrink-0" style={{ background: task.priority === 'critical' ? 'var(--cherry)' : task.priority === 'high' ? 'var(--v-amber)' : 'var(--v-green)', boxShadow: task.priority === 'critical' ? '0 0 6px rgba(210,32,40,.5)' : 'none' }} />
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-semibold truncate">{task.title}</div>
+                  <div className="text-[10px]" style={{ color: 'var(--text-3)' }}>{task.assignee} · {task.status}</div>
+                </div>
+                <span className="text-[9px] font-semibold uppercase px-2 py-0.5 rounded" style={{ background: task.priority === 'critical' ? 'rgba(210,32,40,.15)' : 'rgba(124,15,17,.08)', color: task.priority === 'critical' ? 'var(--cherry)' : 'var(--text-3)' }}>{task.priority}</span>
+              </div>
+            ))}
+          </div>
+        </GlassPanel>
+      </div>
     </div>
   );
 }

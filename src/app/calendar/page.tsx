@@ -1,17 +1,15 @@
 'use client';
 import { useState, useMemo } from 'react';
-import MissionBanner from '@/components/MissionBanner';
 import Modal from '@/components/Modal';
 import { useLocalStorage } from '@/lib/useLocalStorage';
 import { seedCalendarEvents } from '@/lib/seed-data';
-import { CalendarEvent, Assignee } from '@/lib/types';
+import { CalendarEvent } from '@/lib/types';
 
-const typeColors: Record<string, string> = {
-  meeting: 'bg-blue-500/20 text-blue-400',
-  deadline: 'bg-[#8B5CF6]/20 text-[#8B5CF6]',
-  review: 'bg-purple-500/20 text-purple-400',
-  launch: 'bg-green-500/20 text-green-400',
-  other: 'bg-[#333] text-[#888]',
+const typeDot: Record<string, string> = {
+  meeting: 'var(--v-green)',
+  deadline: 'var(--cherry)',
+  milestone: 'var(--v-amber)',
+  other: 'var(--text-3)',
 };
 
 const emptyEvent = (): CalendarEvent => ({
@@ -19,13 +17,12 @@ const emptyEvent = (): CalendarEvent => ({
   title: '',
   date: '',
   time: '',
-  assignee: 'Both',
   type: 'meeting',
 });
 
 export default function CalendarPage() {
-  const [events, setEvents] = useLocalStorage<CalendarEvent[]>('bs-calendar', seedCalendarEvents);
-  const [currentMonth, setCurrentMonth] = useState(() => new Date(2026, 2, 1)); // March 2026
+  const [events, setEvents] = useLocalStorage<CalendarEvent[]>('mc-calendar', seedCalendarEvents);
+  const [currentMonth, setCurrentMonth] = useState(() => new Date(2026, 2, 1));
   const [modalOpen, setModalOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<CalendarEvent | null>(null);
 
@@ -76,100 +73,99 @@ export default function CalendarPage() {
     setEditingEvent(null);
   };
 
-  const prevMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
-  const nextMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
-
   return (
-    <div>
-      <MissionBanner />
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">Calendar</h1>
-        <div className="flex items-center gap-3">
-          <button onClick={prevMonth} className="rounded-lg border border-[#222] px-3 py-1.5 text-sm text-[#888] hover:bg-[#1a1a1a]">←</button>
-          <span className="text-sm font-medium">{monthStr}</span>
-          <button onClick={nextMonth} className="rounded-lg border border-[#222] px-3 py-1.5 text-sm text-[#888] hover:bg-[#1a1a1a]">→</button>
+    <div className="p-4">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="font-display text-sm font-bold uppercase tracking-wider">Calendar</h1>
+        <div className="flex items-center gap-2">
+          <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className="glass-btn">←</button>
+          <span className="font-display text-xs font-bold uppercase tracking-wider px-3">{monthStr}</span>
+          <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className="glass-btn">→</button>
         </div>
       </div>
 
-      <div className="rounded-xl border border-[#222] bg-[#111] overflow-hidden">
-        <div className="grid grid-cols-7 border-b border-[#222]">
+      <div className="glass overflow-hidden">
+        <div className="grid grid-cols-7" style={{ borderBottom: '1px solid rgba(223,101,110,.1)' }}>
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-            <div key={d} className="px-3 py-2 text-center text-xs font-medium text-[#666]">{d}</div>
+            <div key={d} className="px-2 py-2 text-center label text-[9px]">{d}</div>
           ))}
         </div>
         <div className="grid grid-cols-7">
-          {daysInMonth.map((day, i) => (
-            <div
-              key={i}
-              onClick={() => day && openCreate(day)}
-              className={`min-h-[100px] cursor-pointer border-b border-r border-[#1a1a1a] p-2 transition-colors hover:bg-[#1a1a1a] ${!day ? 'bg-[#0a0a0a]' : ''}`}
-            >
-              {day && (
-                <>
-                  <span className="text-xs text-[#666]">{day}</span>
-                  <div className="mt-1 space-y-1">
-                    {getEventsForDay(day).map(ev => (
-                      <div
-                        key={ev.id}
-                        onClick={e => { e.stopPropagation(); openEdit(ev); }}
-                        className={`rounded px-1.5 py-0.5 text-[10px] truncate ${typeColors[ev.type]}`}
-                      >
-                        {ev.time && <span className="mr-1 opacity-70">{ev.time}</span>}
-                        {ev.title}
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          ))}
+          {daysInMonth.map((day, i) => {
+            const dayEvents = day ? getEventsForDay(day) : [];
+            return (
+              <div
+                key={i}
+                onClick={() => day && openCreate(day)}
+                className="min-h-[90px] cursor-pointer p-1.5 transition-colors hover:bg-white/[.02]"
+                style={{ borderBottom: '1px solid rgba(223,101,110,.06)', borderRight: '1px solid rgba(223,101,110,.06)', background: !day ? 'rgba(0,0,0,.15)' : undefined }}
+              >
+                {day && (
+                  <>
+                    <span className="text-[10px] font-mono" style={{ color: 'var(--text-3)' }}>{day}</span>
+                    <div className="mt-0.5 space-y-0.5">
+                      {dayEvents.map(ev => (
+                        <div
+                          key={ev.id}
+                          onClick={e => { e.stopPropagation(); openEdit(ev); }}
+                          className="flex items-center gap-1 px-1 py-0.5 rounded text-[9px] truncate"
+                          style={{ background: 'rgba(124,15,17,.08)', border: '1px solid rgba(223,101,110,.06)' }}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: typeDot[ev.type] }} />
+                          <span className="truncate">{ev.title}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            );
+          })}
         </div>
+      </div>
+
+      <div className="mt-3 flex gap-4">
+        {Object.entries(typeDot).map(([type, color]) => (
+          <div key={type} className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full" style={{ background: color }} />
+            <span className="text-[10px] capitalize" style={{ color: 'var(--text-3)' }}>{type}</span>
+          </div>
+        ))}
       </div>
 
       <Modal isOpen={modalOpen} onClose={() => { setModalOpen(false); setEditingEvent(null); }} title={editingEvent && events.find(e => e.id === editingEvent.id) ? 'Edit Event' : 'New Event'}>
         {editingEvent && (
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <label className="mb-1 block text-xs text-[#888]">Title</label>
-              <input value={editingEvent.title} onChange={e => setEditingEvent({ ...editingEvent, title: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" placeholder="Event title..." />
+              <label className="label text-[9px] mb-1">Title</label>
+              <input value={editingEvent.title} onChange={e => setEditingEvent({ ...editingEvent, title: e.target.value })} className="glass-input" placeholder="Event title..." />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="mb-1 block text-xs text-[#888]">Date</label>
-                <input type="date" value={editingEvent.date} onChange={e => setEditingEvent({ ...editingEvent, date: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
+                <label className="label text-[9px] mb-1">Date</label>
+                <input type="date" value={editingEvent.date} onChange={e => setEditingEvent({ ...editingEvent, date: e.target.value })} className="glass-input" />
               </div>
               <div>
-                <label className="mb-1 block text-xs text-[#888]">Time</label>
-                <input type="time" value={editingEvent.time} onChange={e => setEditingEvent({ ...editingEvent, time: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
+                <label className="label text-[9px] mb-1">Time</label>
+                <input value={editingEvent.time} onChange={e => setEditingEvent({ ...editingEvent, time: e.target.value })} className="glass-input" placeholder="e.g. 14:00 or All Day" />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="mb-1 block text-xs text-[#888]">Assignee</label>
-                <select value={editingEvent.assignee} onChange={e => setEditingEvent({ ...editingEvent, assignee: e.target.value as Assignee })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]">
-                  <option value="Trinkster">Trinkster</option>
-                  <option value="Check Rossi">Check Rossi</option>
-                  <option value="Both">Both</option>
-                </select>
-              </div>
-              <div>
-                <label className="mb-1 block text-xs text-[#888]">Type</label>
-                <select value={editingEvent.type} onChange={e => setEditingEvent({ ...editingEvent, type: e.target.value as CalendarEvent['type'] })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]">
-                  <option value="meeting">Meeting</option>
-                  <option value="deadline">Deadline</option>
-                  <option value="review">Review</option>
-                  <option value="launch">Launch</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
+            <div>
+              <label className="label text-[9px] mb-1">Type</label>
+              <select value={editingEvent.type} onChange={e => setEditingEvent({ ...editingEvent, type: e.target.value as CalendarEvent['type'] })} className="glass-select">
+                <option value="meeting">Meeting</option>
+                <option value="deadline">Deadline</option>
+                <option value="milestone">Milestone</option>
+                <option value="other">Other</option>
+              </select>
             </div>
             <div className="flex justify-between pt-2">
               {events.find(e => e.id === editingEvent.id) && (
-                <button onClick={() => deleteEvent(editingEvent.id)} className="rounded-lg px-4 py-2 text-sm text-[#8B5CF6] transition-colors hover:bg-[#8B5CF6]/10">Delete</button>
+                <button onClick={() => deleteEvent(editingEvent.id)} className="text-xs" style={{ color: 'var(--cherry)' }}>Delete</button>
               )}
               <div className="ml-auto flex gap-2">
-                <button onClick={() => { setModalOpen(false); setEditingEvent(null); }} className="rounded-lg border border-[#222] px-4 py-2 text-sm text-[#888] transition-colors hover:bg-[#1a1a1a]">Cancel</button>
-                <button onClick={saveEvent} className="rounded-lg bg-[#8B5CF6] px-4 py-2 text-sm font-medium transition-colors hover:bg-[#7C3AED]">Save</button>
+                <button onClick={() => { setModalOpen(false); setEditingEvent(null); }} className="glass-btn">Cancel</button>
+                <button onClick={saveEvent} className="glass-btn" style={{ background: 'linear-gradient(135deg, rgba(213,56,66,.2), rgba(198,31,37,.15))', color: '#fff' }}>Save</button>
               </div>
             </div>
           </div>

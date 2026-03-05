@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Orbitron, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
+import TopBar from "@/components/TopBar";
+import AnalyticsBar from "@/components/AnalyticsBar";
+import BottomBar from "@/components/BottomBar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const orbitron = Orbitron({
+  variable: "--font-orbitron",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+});
+
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
 });
 
@@ -25,13 +32,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Sidebar />
-        <main className="min-h-screen pl-0 md:pl-56 lg:pl-64">
-          <div className="mx-auto max-w-7xl px-4 py-6 pt-16 md:px-8 md:pt-6">
+      <body className={`${orbitron.variable} ${jakarta.variable} ${jetbrains.variable} antialiased`}>
+        <div className="flex flex-col h-screen overflow-hidden p-3 gap-2">
+          <TopBar />
+          <AnalyticsBar />
+          <main className="flex-1 overflow-y-auto min-h-0">
             {children}
-          </div>
-        </main>
+          </main>
+          <BottomBar />
+        </div>
       </body>
     </html>
   );

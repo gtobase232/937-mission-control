@@ -1,56 +1,51 @@
 'use client';
 import { useState } from 'react';
-import MissionBanner from '@/components/MissionBanner';
 import Modal from '@/components/Modal';
+import GlassPanel from '@/components/GlassPanel';
 import { useLocalStorage } from '@/lib/useLocalStorage';
 import { seedDocs } from '@/lib/seed-data';
-import { Doc } from '@/lib/types';
+import { Doc, DocCategory } from '@/lib/types';
 
-function renderMarkdown(text: string) {
-  return text
-    .replace(/^### (.+)$/gm, '<h3 class="text-base font-semibold mt-4 mb-2">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 class="text-lg font-semibold mt-5 mb-2">$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1 class="text-xl font-bold mt-6 mb-3">$1</h1>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/`([^`]+)`/g, '<code class="rounded bg-[#222] px-1.5 py-0.5 text-[#8B5CF6] text-xs">$1</code>')
-    .replace(/^```(\w+)?\n([\s\S]*?)```$/gm, '<pre class="rounded-lg bg-[#0a0a0a] p-3 my-3 overflow-x-auto text-xs text-[#ccc]"><code>$2</code></pre>')
-    .replace(/^- (.+)$/gm, '<li class="ml-4 text-sm text-[#ccc] list-disc">$1</li>')
-    .replace(/^\d+\. (.+)$/gm, '<li class="ml-4 text-sm text-[#ccc] list-decimal">$1</li>')
-    .replace(/\n\n/g, '<br/><br/>')
-    .replace(/\n/g, '<br/>');
-}
+const categories: { key: DocCategory | 'all'; label: string }[] = [
+  { key: 'all', label: 'All' },
+  { key: 'proposals', label: 'Proposals' },
+  { key: 'contracts', label: 'Contracts' },
+  { key: 'brand-guidelines', label: 'Brand Guidelines' },
+  { key: 'invoices', label: 'Invoices' },
+  { key: 'internal', label: 'Internal' },
+];
+
+const categoryIcon: Record<DocCategory, string> = {
+  proposals: '📄',
+  contracts: '📝',
+  'brand-guidelines': '🎨',
+  invoices: '💰',
+  internal: '🔒',
+};
+
+const emptyDoc = (): Doc => ({
+  id: Date.now().toString(),
+  title: '',
+  category: 'internal',
+  date: new Date().toISOString().split('T')[0],
+  size: '0 KB',
+  description: '',
+});
 
 export default function DocsPage() {
-  const [docs, setDocs] = useLocalStorage<Doc[]>('bs-docs', seedDocs);
+  const [docs, setDocs] = useLocalStorage<Doc[]>('mc-docs', seedDocs);
+  const [filter, setFilter] = useState<DocCategory | 'all'>('all');
   const [search, setSearch] = useState('');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [selectedDoc, setSelectedDoc] = useState<Doc | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingDoc, setEditingDoc] = useState<Doc | null>(null);
+  const [viewingDoc, setViewingDoc] = useState<Doc | null>(null);
 
-  const filtered = docs.filter(d =>
-    !search ||
-    d.title.toLowerCase().includes(search.toLowerCase()) ||
-    d.project.toLowerCase().includes(search.toLowerCase()) ||
-    d.tags.some(t => t.toLowerCase().includes(search.toLowerCase()))
-  );
-
-  const projects = [...new Set(docs.map(d => d.project))];
+  const filtered = docs
+    .filter(d => filter === 'all' || d.category === filter)
+    .filter(d => !search || d.title.toLowerCase().includes(search.toLowerCase()) || d.description.toLowerCase().includes(search.toLowerCase()));
 
   const openCreate = () => {
-    setEditingDoc({
-      id: Date.now().toString(),
-      title: '',
-      project: projects[0] || '',
-      content: '',
-      updatedAt: new Date().toISOString().split('T')[0],
-      tags: [],
-    });
-    setModalOpen(true);
-  };
-
-  const openEdit = (doc: Doc) => {
-    setEditingDoc({ ...doc, tags: [...doc.tags] });
+    setEditingDoc(emptyDoc());
     setModalOpen(true);
   };
 
@@ -69,110 +64,118 @@ export default function DocsPage() {
     setDocs(prev => prev.filter(d => d.id !== id));
     setModalOpen(false);
     setEditingDoc(null);
-    if (selectedDoc?.id === id) setSelectedDoc(null);
   };
 
-  if (selectedDoc) {
-    return (
-      <div>
-        <MissionBanner />
-        <button onClick={() => setSelectedDoc(null)} className="mb-4 text-sm text-[#888] hover:text-white transition-colors">← Back to Docs</button>
-        <div className="rounded-xl border border-[#222] bg-[#111] p-6">
-          <div className="mb-4 flex items-start justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold">{selectedDoc.title}</h1>
-              <p className="mt-1 text-sm text-[#888]">{selectedDoc.project} · Updated {selectedDoc.updatedAt}</p>
-            </div>
-            <button onClick={() => openEdit(selectedDoc)} className="rounded-lg border border-[#222] px-3 py-1.5 text-sm text-[#888] hover:bg-[#1a1a1a]">Edit</button>
-          </div>
-          <div className="flex gap-2 mb-4">
-            {selectedDoc.tags.map(tag => (
-              <span key={tag} className="rounded-full bg-[#1a1a1a] px-2.5 py-0.5 text-[10px] text-[#888]">{tag}</span>
-            ))}
-          </div>
-          <div className="prose prose-invert max-w-none text-sm text-[#ccc]" dangerouslySetInnerHTML={{ __html: renderMarkdown(selectedDoc.content) }} />
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div>
-      <MissionBanner />
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">Docs</h1>
-        <div className="flex gap-2">
-          <button onClick={() => setViewMode('grid')} className={`rounded-lg px-3 py-1.5 text-sm ${viewMode === 'grid' ? 'bg-[#222] text-white' : 'text-[#888] hover:text-white'}`}>▦</button>
-          <button onClick={() => setViewMode('list')} className={`rounded-lg px-3 py-1.5 text-sm ${viewMode === 'list' ? 'bg-[#222] text-white' : 'text-[#888] hover:text-white'}`}>▤</button>
-          <button onClick={openCreate} className="rounded-lg bg-[#8B5CF6] px-4 py-2 text-sm font-medium transition-colors hover:bg-[#7C3AED]">+ New Doc</button>
-        </div>
+    <div className="p-4">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="font-display text-sm font-bold uppercase tracking-wider">Documents</h1>
+        <button onClick={openCreate} className="glass-btn">+ Doc</button>
       </div>
 
-      <input
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        placeholder="Search docs by title, project, or tag..."
-        className="mb-6 w-full rounded-lg border border-[#222] bg-[#111] px-4 py-2.5 text-sm text-white outline-none focus:border-[#8B5CF6]"
-      />
+      <div className="flex items-center gap-3 mb-4 flex-wrap">
+        <div className="flex gap-1 flex-wrap">
+          {categories.map(cat => (
+            <button
+              key={cat.key}
+              onClick={() => setFilter(cat.key)}
+              className="px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all"
+              style={filter === cat.key ? {
+                background: 'linear-gradient(135deg, rgba(213,56,66,.15), rgba(198,31,37,.1))',
+                color: '#fff',
+                border: '1px solid rgba(223,101,110,.15)',
+              } : {
+                color: 'var(--text-3)',
+                border: '1px solid transparent',
+              }}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+        <input
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="glass-input max-w-xs text-xs"
+          placeholder="Search documents..."
+        />
+      </div>
 
-      {projects.map(project => {
-        const projectDocs = filtered.filter(d => d.project === project);
-        if (projectDocs.length === 0) return null;
-        return (
-          <div key={project} className="mb-8">
-            <h2 className="mb-3 text-sm font-medium text-[#888]">{project}</h2>
-            <div className={viewMode === 'grid' ? 'grid gap-3 sm:grid-cols-2 lg:grid-cols-3' : 'space-y-2'}>
-              {projectDocs.map(doc => (
-                <div
-                  key={doc.id}
-                  onClick={() => setSelectedDoc(doc)}
-                  className={`cursor-pointer rounded-lg border border-[#222] bg-[#111] p-4 transition-all hover:border-[#333] hover:bg-[#1a1a1a] ${viewMode === 'list' ? 'flex items-center justify-between' : ''}`}
-                  style={{ animation: 'fadeIn 0.2s ease-out' }}
-                >
-                  <div>
-                    <h3 className="text-sm font-medium">{doc.title}</h3>
-                    <p className="mt-1 text-xs text-[#666]">Updated {doc.updatedAt}</p>
-                  </div>
-                  <div className={`flex gap-1.5 ${viewMode === 'grid' ? 'mt-3' : ''}`}>
-                    {doc.tags.map(tag => (
-                      <span key={tag} className="rounded-full bg-[#1a1a1a] px-2 py-0.5 text-[10px] text-[#666]">{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
+      <div className="space-y-2">
+        {filtered.map(doc => (
+          <GlassPanel key={doc.id} className="p-3 cursor-pointer transition-all hover:scale-[1.005]">
+            <div onClick={() => setViewingDoc(doc)} className="flex items-center gap-3">
+              <span className="text-lg shrink-0">{categoryIcon[doc.category]}</span>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-xs font-bold truncate">{doc.title}</h3>
+                <p className="text-[10px] mt-0.5 truncate" style={{ color: 'var(--text-3)' }}>{doc.description}</p>
+              </div>
+              <div className="text-right shrink-0">
+                <div className="text-[9px] font-semibold uppercase px-2 py-0.5 rounded" style={{ background: 'rgba(124,15,17,.08)', color: 'var(--text-3)' }}>{doc.category}</div>
+                <div className="font-mono text-[9px] mt-1" style={{ color: 'var(--text-muted)' }}>{doc.size} · {doc.date}</div>
+              </div>
             </div>
+          </GlassPanel>
+        ))}
+      </div>
+
+      <Modal isOpen={!!viewingDoc} onClose={() => setViewingDoc(null)} title="Document Details">
+        {viewingDoc && (
+          <div className="space-y-3">
+            <div className="text-center py-4">
+              <span className="text-4xl">{categoryIcon[viewingDoc.category]}</span>
+              <h3 className="text-sm font-bold mt-2">{viewingDoc.title}</h3>
+              <p className="text-xs mt-1" style={{ color: 'var(--text-3)' }}>{viewingDoc.description}</p>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="glass p-2 text-center">
+                <div className="label text-[8px] mb-1">Category</div>
+                <div className="text-[11px] font-semibold">{viewingDoc.category}</div>
+              </div>
+              <div className="glass p-2 text-center">
+                <div className="label text-[8px] mb-1">Size</div>
+                <div className="text-[11px] font-mono font-semibold">{viewingDoc.size}</div>
+              </div>
+              <div className="glass p-2 text-center">
+                <div className="label text-[8px] mb-1">Date</div>
+                <div className="text-[11px] font-mono font-semibold">{viewingDoc.date}</div>
+              </div>
+            </div>
+            <button onClick={() => { setViewingDoc(null); setEditingDoc({ ...viewingDoc }); setModalOpen(true); }} className="glass-btn w-full justify-center">Edit Document</button>
           </div>
-        );
-      })}
+        )}
+      </Modal>
 
       <Modal isOpen={modalOpen} onClose={() => { setModalOpen(false); setEditingDoc(null); }} title={editingDoc && docs.find(d => d.id === editingDoc.id) ? 'Edit Document' : 'New Document'}>
         {editingDoc && (
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <label className="mb-1 block text-xs text-[#888]">Title</label>
-              <input value={editingDoc.title} onChange={e => setEditingDoc({ ...editingDoc, title: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="mb-1 block text-xs text-[#888]">Project</label>
-                <input value={editingDoc.project} onChange={e => setEditingDoc({ ...editingDoc, project: e.target.value })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
-              </div>
-              <div>
-                <label className="mb-1 block text-xs text-[#888]">Tags (comma separated)</label>
-                <input value={editingDoc.tags.join(', ')} onChange={e => setEditingDoc({ ...editingDoc, tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean) })} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none focus:border-[#8B5CF6]" />
-              </div>
+              <label className="label text-[9px] mb-1">Title</label>
+              <input value={editingDoc.title} onChange={e => setEditingDoc({ ...editingDoc, title: e.target.value })} className="glass-input" placeholder="Document title..." />
             </div>
             <div>
-              <label className="mb-1 block text-xs text-[#888]">Content (Markdown)</label>
-              <textarea value={editingDoc.content} onChange={e => setEditingDoc({ ...editingDoc, content: e.target.value })} rows={10} className="w-full rounded-lg border border-[#222] bg-[#0a0a0a] px-3 py-2 font-mono text-sm text-white outline-none focus:border-[#8B5CF6]" />
+              <label className="label text-[9px] mb-1">Description</label>
+              <textarea value={editingDoc.description} onChange={e => setEditingDoc({ ...editingDoc, description: e.target.value })} className="glass-textarea" placeholder="Description..." />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="label text-[9px] mb-1">Category</label>
+                <select value={editingDoc.category} onChange={e => setEditingDoc({ ...editingDoc, category: e.target.value as DocCategory })} className="glass-select">
+                  {categories.filter(c => c.key !== 'all').map(c => <option key={c.key} value={c.key}>{c.label}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="label text-[9px] mb-1">Size</label>
+                <input value={editingDoc.size} onChange={e => setEditingDoc({ ...editingDoc, size: e.target.value })} className="glass-input" placeholder="e.g. 2.4 MB" />
+              </div>
             </div>
             <div className="flex justify-between pt-2">
               {docs.find(d => d.id === editingDoc.id) && (
-                <button onClick={() => deleteDoc(editingDoc.id)} className="rounded-lg px-4 py-2 text-sm text-[#8B5CF6] transition-colors hover:bg-[#8B5CF6]/10">Delete</button>
+                <button onClick={() => deleteDoc(editingDoc.id)} className="text-xs" style={{ color: 'var(--cherry)' }}>Delete</button>
               )}
               <div className="ml-auto flex gap-2">
-                <button onClick={() => { setModalOpen(false); setEditingDoc(null); }} className="rounded-lg border border-[#222] px-4 py-2 text-sm text-[#888] transition-colors hover:bg-[#1a1a1a]">Cancel</button>
-                <button onClick={saveDoc} className="rounded-lg bg-[#8B5CF6] px-4 py-2 text-sm font-medium transition-colors hover:bg-[#7C3AED]">Save</button>
+                <button onClick={() => { setModalOpen(false); setEditingDoc(null); }} className="glass-btn">Cancel</button>
+                <button onClick={saveDoc} className="glass-btn" style={{ background: 'linear-gradient(135deg, rgba(213,56,66,.2), rgba(198,31,37,.15))', color: '#fff' }}>Save</button>
               </div>
             </div>
           </div>
