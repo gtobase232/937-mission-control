@@ -27,23 +27,36 @@ export default function TopBar() {
   const [prices, setPrices] = useState(assets.map(a => ({ ...a, price: a.basePrice, change: 2.4 })));
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    // Fetch real prices
+    async function fetchPrices() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true');
+        const data = await res.json();
+        const map: Record<string, {usd:number,usd_24h_change:number}> = { BTC: data.bitcoin, ETH: data.ethereum, SOL: data.solana };
+        setPrices(prev => prev.map(a => {
+          const real = map[a.name];
+          if (real) return { ...a, price: Math.floor(real.usd), change: Math.round(real.usd_24h_change * 10) / 10 };
+          return a;
+        }));
+      } catch(e) { /* fallback to simulated */ }
+    }
+    fetchPrices();
+    const fetchInterval = setInterval(fetchPrices, 60000);
+    const simInterval = setInterval(() => {
       setPrices(prev => prev.map(a => {
-        const delta = Math.floor((Math.random() - 0.48) * a.basePrice * 0.005);
-        const price = a.basePrice + delta;
-        const change = ((delta / a.basePrice) * 100);
-        return { ...a, price, change: Math.round(change * 10) / 10 };
+        const jitter = Math.floor((Math.random() - 0.5) * a.price * 0.001);
+        return { ...a, price: a.price + jitter };
       }));
     }, 3000);
-    return () => clearInterval(interval);
+    return () => { clearInterval(fetchInterval); clearInterval(simInterval); };
   }, []);
 
   return (
     <div className="glass flex items-center px-4 gap-3 h-12 shrink-0">
-      <div className="flex items-center gap-2.5 shrink-0">
+      <Link href="/" className="flex items-center gap-2.5 shrink-0 no-underline" style={{ textDecoration: 'none', color: 'inherit' }}>
         <span className="font-display text-xl font-black tracking-wider">937</span>
         <span className="font-display text-[8px] font-semibold uppercase tracking-[3px]" style={{ color: 'var(--text-3)' }}>Virtual Office</span>
-      </div>
+      </Link>
 
       <div className="w-px h-5 shrink-0" style={{ background: 'rgba(223,101,110,.15)' }} />
 

@@ -194,7 +194,6 @@ export default function DashboardPage() {
 `;
     document.head.appendChild(style);
 
-    // Hide layout chrome
     document.querySelectorAll('[data-layout-chrome]').forEach(el => {
       (el as HTMLElement).style.display = 'none';
     });
@@ -204,7 +203,7 @@ export default function DashboardPage() {
     containerRef.current.innerHTML = `<div class="shell">
   <!-- TOP BAR + BTC -->
   <div class="topbar glass">
-    <div class="tb-brand"><div class="tb-logo">937</div><div class="tb-title">Virtual Office</div></div>
+    <a class="tb-brand" href="/937-mission-control/" style="text-decoration:none;color:inherit;"><div class="tb-logo">937</div><div class="tb-title">Virtual Office</div></a>
     <div class="tb-div"></div>
     <div class="tb-nav">
       <a class="tb-nav-item active" href="/937-mission-control/"><span class="icon icon-xs"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Dashboard</a>
@@ -267,7 +266,7 @@ export default function DashboardPage() {
     <div class="glass glass-elevated panel" data-href="/937-mission-control/tasks">
       <div class="panel-header">
         <span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span> Today's Tasks</span>
-        <div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">6 / 9 active</span><a class="glass-btn" href="/937-mission-control/tasks">+ Task</a></div>
+        <div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">6 / 9 active</span><a class="glass-btn" onclick="openModal('task')" style="cursor:pointer;">+ Task</a></div>
       </div>
       <div class="task-list">
         <div class="task-item"><div class="tc done"></div><span class="tt done">Nexus — finalize logo variations</span><span class="ttag d">Design</span></div>
@@ -297,7 +296,7 @@ export default function DashboardPage() {
     <!-- R1-2 C3: Calendar 50/50 -->
     <div class="glass glass-elevated cal-panel" data-href="/937-mission-control/calendar">
       <div class="cal-top">
-        <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> March 2026</span><a class="glass-btn" href="/937-mission-control/calendar">+ Event</a></div>
+        <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> March 2026</span><a class="glass-btn" onclick="openModal('event')" style="cursor:pointer;">+ Event</a></div>
         <div class="cal-grid">
           <div class="cal-head">Mo</div><div class="cal-head">Tu</div><div class="cal-head">We</div><div class="cal-head">Th</div><div class="cal-head">Fr</div><div class="cal-head">Sa</div><div class="cal-head">Su</div>
           <div class="cal-day other">23</div><div class="cal-day other">24</div><div class="cal-day other">25</div><div class="cal-day other">26</div><div class="cal-day other">27</div><div class="cal-day other">28</div><div class="cal-day">1</div>
@@ -322,7 +321,7 @@ export default function DashboardPage() {
 
     <!-- R2C1: Clients -->
     <div class="glass glass-elevated panel" data-href="/937-mission-control/clients">
-      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span> Clients</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">5 active</span><a class="glass-btn" href="/937-mission-control/clients">+ Client</a></div></div>
+      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span> Clients</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">5 active</span><a class="glass-btn" onclick="openModal('client')" style="cursor:pointer;">+ Client</a></div></div>
       <div class="client-list">
         <div class="client-item"><div class="cl-logo"><svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 22,8 22,16 12,22 2,16 2,8" stroke="#D22028" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="#DF656E" stroke-width="1.2"/></svg></div><div class="cl-info"><div class="cl-name">Nexus Protocol</div><div class="cl-type">DeFi · Token Launch</div><div class="cl-service">Brand Identity & Token Launch Design</div></div><div class="cl-right"><div class="cl-status active">Active</div><div class="cl-value">$18K</div></div></div>
         <div class="client-item"><div class="cl-logo"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#D22028" stroke-width="1.5"/><ellipse cx="12" cy="12" rx="3" ry="8" stroke="#DF656E" stroke-width="1"/></svg></div><div class="cl-info"><div class="cl-name">Orbital Labs</div><div class="cl-type">AI Infra · Series A</div><div class="cl-service">Website Design & UI/UX</div></div><div class="cl-right"><div class="cl-status active">Active</div><div class="cl-value">$22K</div></div></div>
@@ -334,7 +333,7 @@ export default function DashboardPage() {
 
     <!-- R2C2: Leads -->
     <div class="glass glass-elevated panel" data-href="/937-mission-control/leads">
-      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></span> Leads</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">5 active</span><a class="glass-btn" href="/937-mission-control/leads">+ Lead</a></div></div>
+      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></span> Leads</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">5 active</span><a class="glass-btn" onclick="openModal('lead')" style="cursor:pointer;">+ Lead</a></div></div>
       <div class="lead-list">
         <div class="lead-item"><div class="ld-dot hot"></div><div class="ld-info"><div class="ld-name">Meridian DAO</div><div class="ld-src">Referral · Call scheduled</div></div><div class="ld-val">$15K</div></div>
         <div class="lead-item"><div class="ld-dot hot"></div><div class="ld-info"><div class="ld-name">Flux AI</div><div class="ld-src">Twitter DM · Brand kit</div></div><div class="ld-val">$12K</div></div>
@@ -346,19 +345,47 @@ export default function DashboardPage() {
 
     <!-- R3C1-2: Virtual Office (2x bigger agents) -->
     <div class="glass glass-elevated panel" data-href="/937-mission-control/virtual-office" style="grid-column:span 2;">
-      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Virtual Team</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">6 active</span><a class="glass-btn" href="/937-mission-control/team">+ Agent</a></div></div>
+      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Virtual Team</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">6 active</span><a class="glass-btn" onclick="openModal('agent')" style="cursor:pointer;">+ Agent</a></div></div>
       <div class="pixel-office"><canvas id="officeCanvas"></canvas></div>
     </div>
 
     <!-- R3C3: Content -->
     <div class="glass glass-elevated panel" data-href="/937-mission-control/content-calendar">
-      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span> Content</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">4 active</span><a class="glass-btn" href="/937-mission-control/content-calendar">+ New</a></div></div>
+      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span> Content</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">4 active</span><a class="glass-btn" onclick="openModal('content')" style="cursor:pointer;">+ New</a></div></div>
       <div class="content-list">
         <div class="content-item"><div class="ci-type"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5 0-.278-.028-.556-.08-.83A7.72 7.72 0 0023 3z"/></svg></div><div class="ci-info"><div class="ci-title">Vanta case study</div><div class="ci-meta">X · 8 posts</div></div><div class="ci-status scheduled">Scheduled</div></div>
         <div class="content-item"><div class="ci-type"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div><div class="ci-info"><div class="ci-title">Nexus brand reel</div><div class="ci-meta">Instagram · Video</div></div><div class="ci-status">Draft</div></div>
         <div class="content-item"><div class="ci-type"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg></div><div class="ci-info"><div class="ci-title">March newsletter</div><div class="ci-meta">Email · 2.4K subs</div></div><div class="ci-status">Draft</div></div>
         <div class="content-item"><div class="ci-type"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="ci-info"><div class="ci-title">Design process blog</div><div class="ci-meta">Blog · Long-form</div></div><div class="ci-status scheduled">Mar 7</div></div>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL OVERLAY -->
+  <div id="modalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center;">
+    <div style="width:420px;max-height:80vh;overflow-y:auto;background:linear-gradient(135deg,rgba(30,12,14,.98),rgba(20,10,11,.98));border:1px solid rgba(223,101,110,.2);border-radius:16px;padding:28px;box-shadow:0 24px 64px rgba(0,0,0,.6);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h2 id="modalTitle" style="font-family:var(--display);font-size:16px;font-weight:800;color:#fff;letter-spacing:1px;text-transform:uppercase;">Add New</h2>
+        <span onclick="closeModal()" style="cursor:pointer;color:var(--text-3);font-size:20px;line-height:1;">&times;</span>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- MODAL OVERLAY -->
+  <div id="modalOverlay" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(10,5,5,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:center;justify-content:center;" onclick="if(event.target===this)closeModal()">
+    <div style="width:420px;max-width:90vw;max-height:80vh;overflow-y:auto;border-radius:16px;background:linear-gradient(135deg,rgba(213,56,66,.1),rgba(160,30,40,.07) 50%,rgba(210,32,40,.04));border:1px solid rgba(223,101,110,.2);box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,180,170,.12);padding:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h2 id="modalTitle" style="font-family:var(--display);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#fff;"></h2>
+        <button onclick="closeModal()" style="background:none;border:none;color:var(--text-3);font-size:18px;cursor:pointer;">✕</button>
+      </div>
+      <form id="modalForm" style="display:flex;flex-direction:column;gap:14px;">
+        <div id="modalFields"></div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+          <button type="button" onclick="closeModal()" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(223,101,110,.15);background:none;color:var(--text-3);font-family:var(--body);font-size:12px;cursor:pointer;">Cancel</button>
+          <button type="submit" style="padding:8px 20px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--cherry),var(--crimson));color:#fff;font-family:var(--body);font-size:12px;font-weight:600;cursor:pointer;">Save</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -370,13 +397,13 @@ export default function DashboardPage() {
 </div>`;
 
     const script = document.createElement('script');
-    script.textContent = `// MULTI-ASSET TICKER — cycles through BTC, ETH, SOL, Gold, Silver
+    script.textContent = `// MULTI-ASSET TICKER — cycles through BTC, ETH, SOL, Gold, Silver with real prices
 const assets = [
-  { symbol: '₿', name: 'BTC', base: 91247, color: '#f7931a', volatility: 200 },
-  { symbol: 'Ξ', name: 'ETH', base: 3412, color: '#627eea', volatility: 40 },
-  { symbol: '◎', name: 'SOL', base: 145, color: '#9945ff', volatility: 5 },
-  { symbol: '🥇', name: 'XAU', base: 2890, color: '#ffd700', volatility: 15 },
-  { symbol: '🥈', name: 'XAG', base: 32, color: '#c0c0c0', volatility: 0.8 },
+  { symbol: '₿', name: 'BTC', base: 91247, color: '#f7931a', volatility: 200, cgId: 'bitcoin' },
+  { symbol: 'Ξ', name: 'ETH', base: 3412, color: '#627eea', volatility: 40, cgId: 'ethereum' },
+  { symbol: '◎', name: 'SOL', base: 145, color: '#9945ff', volatility: 5, cgId: 'solana' },
+  { symbol: '🥇', name: 'XAU', base: 2890, color: '#ffd700', volatility: 15, cgId: null },
+  { symbol: '🥈', name: 'XAG', base: 32, color: '#c0c0c0', volatility: 0.8, cgId: null },
 ];
 let currentAsset = 0;
 const tickerChart = document.getElementById('tickerChart');
@@ -389,9 +416,21 @@ for(let i=0;i<12;i++){
   tickerBars.push(bar);
 }
 
+// Fetch real prices from CoinGecko
+async function fetchRealPrices() {
+  try {
+    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true');
+    const data = await res.json();
+    if (data.bitcoin) { assets[0].base = data.bitcoin.usd; assets[0].change24h = data.bitcoin.usd_24h_change; }
+    if (data.ethereum) { assets[1].base = data.ethereum.usd; assets[1].change24h = data.ethereum.usd_24h_change; }
+    if (data.solana) { assets[2].base = data.solana.usd; assets[2].change24h = data.solana.usd_24h_change; }
+  } catch(e) { console.log('Price fetch failed, using defaults'); }
+}
+fetchRealPrices();
+setInterval(fetchRealPrices, 60000); // Refresh every 60s
+
 function updateTicker(){
   const a = assets[currentAsset];
-  // Update chart bar
   tickerBars.shift().remove();
   const bar = document.createElement('div');
   bar.className='btc-bar';
@@ -399,20 +438,19 @@ function updateTicker(){
   bar.style.background = a.color+'99';
   tickerChart.appendChild(bar);
   tickerBars.push(bar);
-  // Update price
   const delta = (Math.random()-0.48)*a.volatility;
   const price = a.base + delta;
   const priceStr = price >= 1000 ? '$'+Math.floor(price).toLocaleString() : '$'+price.toFixed(2);
   document.getElementById('tickerPrice').textContent = priceStr;
   document.getElementById('tickerIcon').textContent = a.symbol;
   document.getElementById('tickerIcon').style.color = a.color;
-  const pct = ((delta/a.base)*100).toFixed(1);
+  const pct = a.change24h !== undefined ? a.change24h.toFixed(1) : ((delta/a.base)*100).toFixed(1);
   const chEl = document.getElementById('tickerChange');
-  chEl.textContent = a.name+' '+(delta>=0?'+':'')+pct+'%';
-  chEl.className = 'btc-change '+(delta>=0?'up':'down');
+  const isUp = parseFloat(pct) >= 0;
+  chEl.textContent = a.name+' '+(isUp?'+':'')+pct+'%';
+  chEl.className = 'btc-change '+(isUp?'up':'down');
 }
 setInterval(updateTicker, 2000);
-// Rotate asset every 4 seconds
 setInterval(()=>{ currentAsset = (currentAsset+1) % assets.length; }, 4000);
 
 // PIXEL OFFICE — 2x bigger agents
@@ -683,6 +721,112 @@ setInterval(()=>{
     });
   });
 },300);
+
+// MODAL SYSTEM
+const modalConfig = {
+  task: { title: 'New Task', fields: [
+    {name:'title',label:'Task Title',type:'text',placeholder:'e.g. Design homepage mockup'},
+    {name:'assignee',label:'Assignee',type:'select',options:['Trinkster','Check Rossi','Maya','Leo','Jade','Nico']},
+    {name:'priority',label:'Priority',type:'select',options:['low','medium','high','critical']},
+    {name:'dueDate',label:'Due Date',type:'date'},
+    {name:'description',label:'Description',type:'textarea',placeholder:'Task details...'}
+  ]},
+  client: { title: 'New Client', fields: [
+    {name:'name',label:'Client Name',type:'text',placeholder:'e.g. Acme Protocol'},
+    {name:'industry',label:'Industry',type:'text',placeholder:'e.g. DeFi · Token Launch'},
+    {name:'service',label:'Service',type:'select',options:['Brand Identity','Web Design','UI/UX','Motion Design','Pitch Deck','Brand Strategy','Product Design']},
+    {name:'dealValue',label:'Deal Value ($)',type:'number',placeholder:'15000'},
+    {name:'contact',label:'Contact Name',type:'text',placeholder:'Alex Rivera'},
+    {name:'email',label:'Email',type:'email',placeholder:'alex@example.com'}
+  ]},
+  lead: { title: 'New Lead', fields: [
+    {name:'company',label:'Company',type:'text',placeholder:'e.g. Meridian DAO'},
+    {name:'contact',label:'Contact',type:'text',placeholder:'James Wei'},
+    {name:'source',label:'Source',type:'select',options:['Referral','Twitter DM','Website','Conference','Cold Outreach','LinkedIn']},
+    {name:'value',label:'Deal Value ($)',type:'number',placeholder:'15000'},
+    {name:'temperature',label:'Temperature',type:'select',options:['hot','warm','cold']},
+    {name:'notes',label:'Notes',type:'textarea',placeholder:'Lead details...'}
+  ]},
+  event: { title: 'New Event', fields: [
+    {name:'title',label:'Event Title',type:'text',placeholder:'e.g. Client Review Call'},
+    {name:'date',label:'Date',type:'date'},
+    {name:'time',label:'Time',type:'time'},
+    {name:'type',label:'Type',type:'select',options:['meeting','deadline','milestone','other']}
+  ]},
+  agent: { title: 'New Agent', fields: [
+    {name:'name',label:'Name',type:'text',placeholder:'e.g. Sofia'},
+    {name:'role',label:'Role',type:'text',placeholder:'e.g. UI Designer'},
+    {name:'avatar',label:'Avatar Emoji',type:'text',placeholder:'🎨'},
+    {name:'status',label:'Status',type:'select',options:['online','away','busy','offline']},
+    {name:'currentTask',label:'Current Task',type:'text',placeholder:'Working on...'}
+  ]},
+  content: { title: 'New Content', fields: [
+    {name:'title',label:'Title',type:'text',placeholder:'e.g. Case study thread'},
+    {name:'platform',label:'Platform',type:'select',options:['X/Twitter','Instagram','Email','Blog']},
+    {name:'scheduledDate',label:'Date',type:'date'},
+    {name:'scheduledTime',label:'Time',type:'time'},
+    {name:'content',label:'Content',type:'textarea',placeholder:'Post content...'}
+  ]}
+};
+
+const inputStyle='width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(223,101,110,.15);background:rgba(124,15,17,.08);color:#fff;font-family:var(--body);font-size:13px;outline:none;';
+const labelStyle='font-family:var(--body);font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;display:block;';
+
+function openModal(type) {
+  const config = modalConfig[type];
+  if (!config) return;
+  document.getElementById('modalTitle').textContent = config.title;
+  const fields = document.getElementById('modalFields');
+  fields.innerHTML = config.fields.map(f => {
+    if (f.type === 'select') {
+      return '<div style="margin-bottom:2px;"><label style="'+labelStyle+'">'+f.label+'</label><select name="'+f.name+'" style="'+inputStyle+'">'+f.options.map(o=>'<option value="'+o+'">'+o+'</option>').join('')+'</select></div>';
+    } else if (f.type === 'textarea') {
+      return '<div style="margin-bottom:2px;"><label style="'+labelStyle+'">'+f.label+'</label><textarea name="'+f.name+'" placeholder="'+(f.placeholder||'')+'" rows="3" style="'+inputStyle+'resize:vertical;"></textarea></div>';
+    } else {
+      return '<div style="margin-bottom:2px;"><label style="'+labelStyle+'">'+f.label+'</label><input type="'+f.type+'" name="'+f.name+'" placeholder="'+(f.placeholder||'')+'" style="'+inputStyle+'"/></div>';
+    }
+  }).join('');
+  document.getElementById('modalOverlay').style.display = 'flex';
+  document.getElementById('modalForm').onsubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+    // Save to localStorage
+    const key = '937-'+type+'s';
+    const existing = JSON.parse(localStorage.getItem(key) || '[]');
+    data.id = Date.now().toString();
+    data.createdAt = new Date().toISOString().split('T')[0];
+    data.status = type==='task'?'todo':type==='lead'?'new':'active';
+    existing.push(data);
+    localStorage.setItem(key, JSON.stringify(existing));
+    closeModal();
+    // Brief confirmation
+    const btn = document.querySelector('[onclick="openModal(\\\\''+type+'\\\\')"]');
+    if(btn){const orig=btn.textContent;btn.textContent='✓ Added!';setTimeout(()=>btn.textContent=orig,1500);}
+  };
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+}
+
+// ANALYTICS PERIOD TOGGLE
+document.querySelectorAll('.period-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // Update KPI values based on period
+    const period = btn.textContent.trim();
+    const vals = document.querySelectorAll('.ab-val');
+    if (period === 'Monthly') {
+      vals[0].textContent='$47K'; vals[1].textContent='5'; vals[2].textContent='10'; vals[3].textContent='34%'; vals[4].textContent='18';
+    } else if (period === 'Quarterly') {
+      vals[0].textContent='$128K'; vals[1].textContent='12'; vals[2].textContent='28'; vals[3].textContent='38%'; vals[4].textContent='47';
+    } else {
+      vals[0].textContent='$485K'; vals[1].textContent='38'; vals[2].textContent='95'; vals[3].textContent='36%'; vals[4].textContent='156';
+    }
+  });
+});
 
 // Panel click navigation
 document.querySelectorAll('[data-href]').forEach(el => {
