@@ -9,7 +9,6 @@ export default function DashboardPage() {
     if (initialized.current || !containerRef.current) return;
     initialized.current = true;
 
-    // Inject the v11 dashboard styles
     const style = document.createElement('style');
     style.setAttribute('data-v11', 'true');
     style.textContent = `
@@ -97,6 +96,11 @@ export default function DashboardPage() {
   .period-toggle{display:flex;border-radius:7px;overflow:hidden;border:1px solid rgba(223,101,110,.1);background:rgba(124,15,17,.04);}
   .period-btn{padding:6px 11px;font-family:var(--body);font-size:10px;font-weight:600;color:var(--text-3);cursor:pointer;transition:all .2s;border:none;background:none;}
   .period-btn.active{background:linear-gradient(135deg,rgba(213,56,66,.15),rgba(198,31,37,.1));color:#fff;}
+  .panel[data-href]{cursor:pointer;transition:border-color .2s,box-shadow .2s;}
+  .panel[data-href]:hover{border-color:rgba(223,101,110,.25);box-shadow:inset 0 1px 0 rgba(255,180,170,.18),0 14px 48px rgba(0,0,0,.35);}
+  .cal-panel[data-href]{cursor:pointer;transition:border-color .2s;}
+  .cal-panel[data-href]:hover{border-color:rgba(223,101,110,.25);}
+  a.glass-btn{text-decoration:none;}
   .glass-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:7px;border:1px solid rgba(223,101,110,.12);background:linear-gradient(135deg,rgba(213,56,66,.08),rgba(198,31,37,.04));color:var(--cherry);font-family:var(--body);font-size:11px;font-weight:600;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,180,170,.06);transition:all .2s;white-space:nowrap;}
 
   /* MAIN */
@@ -190,24 +194,13 @@ export default function DashboardPage() {
 `;
     document.head.appendChild(style);
 
-    // Hide the Next.js layout chrome
-    const main = document.querySelector('main');
-    if (main) {
-      main.style.paddingLeft = '0';
-      main.style.minHeight = '100vh';
-      const inner = main.querySelector('div');
-      if (inner) {
-        inner.style.maxWidth = 'none';
-        inner.style.padding = '0';
-        inner.style.paddingTop = '0';
-      }
-    }
-    // Hide TopBar, AnalyticsBar, BottomBar from layout
+    // Hide layout chrome
     document.querySelectorAll('[data-layout-chrome]').forEach(el => {
       (el as HTMLElement).style.display = 'none';
     });
+    const main = document.querySelector('main');
+    if (main) { main.style.overflow = 'hidden'; }
 
-    // Inject the v11 body HTML
     containerRef.current.innerHTML = `<div class="shell">
   <!-- TOP BAR + BTC -->
   <div class="topbar glass">
@@ -264,17 +257,17 @@ export default function DashboardPage() {
         <div class="period-btn">Quarterly</div>
         <div class="period-btn">Yearly</div>
       </div>
-      <a class="glass-btn"><span class="icon icon-xs"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>See All Analytics</a>
+      <a class="glass-btn" href="/937-mission-control/analytics"><span class="icon icon-xs"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>See All Analytics</a>
     </div>
   </div>
 
   <!-- MAIN -->
   <div class="main">
     <!-- R1C1: Tasks -->
-    <div class="glass glass-elevated panel">
+    <div class="glass glass-elevated panel" data-href="/937-mission-control/tasks">
       <div class="panel-header">
         <span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span> Today's Tasks</span>
-        <div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">6 / 9 active</span><a class="glass-btn">+ Task</a></div>
+        <div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">6 / 9 active</span><a class="glass-btn" href="/937-mission-control/tasks">+ Task</a></div>
       </div>
       <div class="task-list">
         <div class="task-item"><div class="tc done"></div><span class="tt done">Nexus — finalize logo variations</span><span class="ttag d">Design</span></div>
@@ -289,7 +282,7 @@ export default function DashboardPage() {
     </div>
 
     <!-- R1C2: Deadlines -->
-    <div class="glass glass-elevated panel">
+    <div class="glass glass-elevated panel" data-href="/937-mission-control/calendar">
       <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> Deadlines</span></div>
       <div class="dl-list">
         <div class="dl-item"><span class="dl-dot soon"></span><span class="dl-date soon">Mar 5</span><span class="dl-text">Strata — Storyboard v1</span><span class="dl-proj">STRATA</span></div>
@@ -302,9 +295,9 @@ export default function DashboardPage() {
     </div>
 
     <!-- R1-2 C3: Calendar 50/50 -->
-    <div class="glass glass-elevated cal-panel">
+    <div class="glass glass-elevated cal-panel" data-href="/937-mission-control/calendar">
       <div class="cal-top">
-        <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> March 2026</span><a class="glass-btn">+ Event</a></div>
+        <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> March 2026</span><a class="glass-btn" href="/937-mission-control/calendar">+ Event</a></div>
         <div class="cal-grid">
           <div class="cal-head">Mo</div><div class="cal-head">Tu</div><div class="cal-head">We</div><div class="cal-head">Th</div><div class="cal-head">Fr</div><div class="cal-head">Sa</div><div class="cal-head">Su</div>
           <div class="cal-day other">23</div><div class="cal-day other">24</div><div class="cal-day other">25</div><div class="cal-day other">26</div><div class="cal-day other">27</div><div class="cal-day other">28</div><div class="cal-day">1</div>
@@ -328,8 +321,8 @@ export default function DashboardPage() {
     </div>
 
     <!-- R2C1: Clients -->
-    <div class="glass glass-elevated panel">
-      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span> Clients</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">5 active</span><a class="glass-btn">+ Client</a></div></div>
+    <div class="glass glass-elevated panel" data-href="/937-mission-control/clients">
+      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span> Clients</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">5 active</span><a class="glass-btn" href="/937-mission-control/clients">+ Client</a></div></div>
       <div class="client-list">
         <div class="client-item"><div class="cl-logo"><svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 22,8 22,16 12,22 2,16 2,8" stroke="#D22028" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="#DF656E" stroke-width="1.2"/></svg></div><div class="cl-info"><div class="cl-name">Nexus Protocol</div><div class="cl-type">DeFi · Token Launch</div><div class="cl-service">Brand Identity & Token Launch Design</div></div><div class="cl-right"><div class="cl-status active">Active</div><div class="cl-value">$18K</div></div></div>
         <div class="client-item"><div class="cl-logo"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#D22028" stroke-width="1.5"/><ellipse cx="12" cy="12" rx="3" ry="8" stroke="#DF656E" stroke-width="1"/></svg></div><div class="cl-info"><div class="cl-name">Orbital Labs</div><div class="cl-type">AI Infra · Series A</div><div class="cl-service">Website Design & UI/UX</div></div><div class="cl-right"><div class="cl-status active">Active</div><div class="cl-value">$22K</div></div></div>
@@ -340,8 +333,8 @@ export default function DashboardPage() {
     </div>
 
     <!-- R2C2: Leads -->
-    <div class="glass glass-elevated panel">
-      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></span> Leads</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">5 active</span><a class="glass-btn">+ Lead</a></div></div>
+    <div class="glass glass-elevated panel" data-href="/937-mission-control/leads">
+      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></span> Leads</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">5 active</span><a class="glass-btn" href="/937-mission-control/leads">+ Lead</a></div></div>
       <div class="lead-list">
         <div class="lead-item"><div class="ld-dot hot"></div><div class="ld-info"><div class="ld-name">Meridian DAO</div><div class="ld-src">Referral · Call scheduled</div></div><div class="ld-val">$15K</div></div>
         <div class="lead-item"><div class="ld-dot hot"></div><div class="ld-info"><div class="ld-name">Flux AI</div><div class="ld-src">Twitter DM · Brand kit</div></div><div class="ld-val">$12K</div></div>
@@ -352,14 +345,14 @@ export default function DashboardPage() {
     </div>
 
     <!-- R3C1-2: Virtual Office (2x bigger agents) -->
-    <div class="glass glass-elevated panel" style="grid-column:span 2;">
-      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Virtual Team</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">6 active</span><a class="glass-btn">+ Agent</a></div></div>
+    <div class="glass glass-elevated panel" data-href="/937-mission-control/virtual-office" style="grid-column:span 2;">
+      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Virtual Team</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">6 active</span><a class="glass-btn" href="/937-mission-control/team">+ Agent</a></div></div>
       <div class="pixel-office"><canvas id="officeCanvas"></canvas></div>
     </div>
 
     <!-- R3C3: Content -->
-    <div class="glass glass-elevated panel">
-      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span> Content</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">4 active</span><a class="glass-btn">+ New</a></div></div>
+    <div class="glass glass-elevated panel" data-href="/937-mission-control/content-calendar">
+      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span> Content</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">4 active</span><a class="glass-btn" href="/937-mission-control/content-calendar">+ New</a></div></div>
       <div class="content-list">
         <div class="content-item"><div class="ci-type"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5 0-.278-.028-.556-.08-.83A7.72 7.72 0 0023 3z"/></svg></div><div class="ci-info"><div class="ci-title">Vanta case study</div><div class="ci-meta">X · 8 posts</div></div><div class="ci-status scheduled">Scheduled</div></div>
         <div class="content-item"><div class="ci-type"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div><div class="ci-info"><div class="ci-title">Nexus brand reel</div><div class="ci-meta">Instagram · Video</div></div><div class="ci-status">Draft</div></div>
@@ -376,8 +369,8 @@ export default function DashboardPage() {
   </div>
 </div>`;
 
-    // Run the v11 JavaScript
-    const scriptContent = `// MULTI-ASSET TICKER — cycles through BTC, ETH, SOL, Gold, Silver
+    const script = document.createElement('script');
+    script.textContent = `// MULTI-ASSET TICKER — cycles through BTC, ETH, SOL, Gold, Silver
 const assets = [
   { symbol: '₿', name: 'BTC', base: 91247, color: '#f7931a', volatility: 200 },
   { symbol: 'Ξ', name: 'ETH', base: 3412, color: '#627eea', volatility: 40 },
@@ -689,28 +682,25 @@ setInterval(()=>{
       }
     });
   });
-},300);`;
-    const script = document.createElement('script');
-    script.textContent = scriptContent;
+},300);
+
+// Panel click navigation
+document.querySelectorAll('[data-href]').forEach(el => {
+  el.addEventListener('click', (e) => {
+    // Don't navigate if clicking a button/link inside the panel
+    if (e.target.closest('a.glass-btn') || e.target.closest('a.tb-nav-item')) return;
+    window.location.href = el.getAttribute('data-href');
+  });
+});`;
     document.body.appendChild(script);
 
     return () => {
-      // Cleanup on unmount
       const v11Style = document.querySelector('style[data-v11]');
       if (v11Style) v11Style.remove();
-      if (main) {
-        main.style.paddingLeft = '';
-        main.style.minHeight = '';
-        const inner = main.querySelector('div');
-        if (inner) {
-          inner.style.maxWidth = '';
-          inner.style.padding = '';
-          inner.style.paddingTop = '';
-        }
-      }
       document.querySelectorAll('[data-layout-chrome]').forEach(el => {
         (el as HTMLElement).style.display = '';
       });
+      if (main) { main.style.overflow = ''; }
     };
   }, []);
 
