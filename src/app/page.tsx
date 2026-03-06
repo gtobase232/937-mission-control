@@ -333,13 +333,13 @@ export default function DashboardPage() {
 
     <!-- R2C2: Leads -->
     <div class="glass glass-elevated panel" data-href="/937-mission-control/leads">
-      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></span> Leads</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">5 active</span><a class="glass-btn" onclick="openModal('lead')" style="cursor:pointer;">+ Lead</a></div></div>
+      <div class="panel-header"><span class="label"><span class="icon icon-sm" style="color:var(--cherry)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></span> Leads</span><div style="display:flex;gap:8px;align-items:center;"><span class="label" style="color:#fff;">20 active</span><a class="glass-btn" onclick="openModal('lead')" style="cursor:pointer;">+ Lead</a></div></div>
       <div class="lead-list">
-        <div class="lead-item"><div class="ld-dot hot"></div><div class="ld-info"><div class="ld-name">Meridian DAO</div><div class="ld-src">Referral · Call scheduled</div></div><div class="ld-val">$15K</div></div>
-        <div class="lead-item"><div class="ld-dot hot"></div><div class="ld-info"><div class="ld-name">Flux AI</div><div class="ld-src">Twitter DM · Brand kit</div></div><div class="ld-val">$12K</div></div>
-        <div class="lead-item"><div class="ld-dot warm"></div><div class="ld-info"><div class="ld-name">Zenith Labs</div><div class="ld-src">Inbound · Website inquiry</div></div><div class="ld-val">$8K</div></div>
-        <div class="lead-item"><div class="ld-dot warm"></div><div class="ld-info"><div class="ld-name">Prism Network</div><div class="ld-src">Conference · Follow-up</div></div><div class="ld-val">$20K</div></div>
-        <div class="lead-item"><div class="ld-dot cold"></div><div class="ld-info"><div class="ld-name">Aether Protocol</div><div class="ld-src">Cold outreach</div></div><div class="ld-val">$10K</div></div>
+        <div class="lead-item"><div class="ld-dot hot"></div><div class="ld-info"><div class="ld-name">Circuit & Chisel</div><div class="ld-src">Research · $19.2M seed · Ex-Stripe</div></div><div class="ld-val">$55K</div></div>
+        <div class="lead-item"><div class="ld-dot hot"></div><div class="ld-info"><div class="ld-name">Brale</div><div class="ld-src">Research · $30M Series A · Lightspeed</div></div><div class="ld-val">$52K</div></div>
+        <div class="lead-item"><div class="ld-dot hot"></div><div class="ld-info"><div class="ld-name">Dynasty Studios</div><div class="ld-src">Research · $14M seed · Gaming</div></div><div class="ld-val">$42K</div></div>
+        <div class="lead-item"><div class="ld-dot hot"></div><div class="ld-info"><div class="ld-name">Bluprynt</div><div class="ld-src">Research · $4.25M · Mark Cuban</div></div><div class="ld-val">$35K</div></div>
+        <div class="lead-item"><div class="ld-dot warm"></div><div class="ld-info"><div class="ld-name">Meridian DAO</div><div class="ld-src">Referral · Call scheduled</div></div><div class="ld-val">$15K</div></div>
       </div>
     </div>
 

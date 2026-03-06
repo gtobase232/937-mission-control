@@ -74,6 +74,17 @@ export const seedLeads: Lead[] = [
   { id: '8', company: 'Penumbra', contact: 'Ava Torres', source: 'Twitter DM', value: 10000, stage: 'qualified', temperature: 'warm', notes: 'Privacy DeFi. Content production + social media.', lastContact: '2026-03-02' },
   { id: '9', company: 'Aztec', contact: 'Stefan Mueller', source: 'Conference', value: 25000, stage: 'contacted', temperature: 'hot', notes: 'ZK-rollup. Full rebrand + social media management.', lastContact: '2026-03-01' },
   { id: '10', company: 'Celestia', contact: 'Nina Patel', source: 'Website', value: 18000, stage: 'new', temperature: 'cold', notes: 'Modular blockchain. Inbound inquiry, needs follow-up.', lastContact: '2026-02-25' },
+  // Real pipeline leads (from research)
+  { id: '11', company: 'Circuit & Chisel', contact: 'TBD', source: 'Research', value: 55000, stage: 'new', temperature: 'hot', notes: '$19.2M seed. Ex-Stripe founders. Backed by Stripe, Coinbase, Solana Ventures, Samsung Next. Website barely renders — needs full brand/web build.', lastContact: '2026-03-05' },
+  { id: '12', company: 'Brale', contact: 'TBD', source: 'Research', value: 52000, stage: 'new', temperature: 'hot', notes: '$30M Series A led by Lightspeed. Stablecoin issuance platform, US regulated. May need rebrand for enterprise tier.', lastContact: '2026-03-05' },
+  { id: '13', company: 'Dynasty Studios', contact: 'TBD', source: 'Research', value: 42000, stage: 'new', temperature: 'hot', notes: '$14M seed. Blockchain gaming for mainstream players. Big seed = big design budget. Needs premium UI/brand.', lastContact: '2026-03-05' },
+  { id: '14', company: 'Standard Economics (Uno)', contact: 'TBD', source: 'Research', value: 35000, stage: 'new', temperature: 'warm', notes: '$9M seed led by Paradigm + Lightspeed. Cross-border stablecoin payments. No X presence — needs full brand build.', lastContact: '2026-03-05' },
+  { id: '15', company: 'Bluprynt', contact: 'TBD', source: 'Research', value: 35000, stage: 'new', temperature: 'hot', notes: '$4.25M seed (Mar 2026). Backed by Mark Cuban, Coinbase Ventures, Robinhood. Compliance OS for digital assets.', lastContact: '2026-03-05' },
+  { id: '16', company: 'Levl', contact: 'TBD', source: 'Research', value: 27000, stage: 'new', temperature: 'warm', notes: '$7M seed led by Galaxy Ventures. Stablecoin payment infra, $1B annualized volume. No X presence.', lastContact: '2026-03-05' },
+  { id: '17', company: 'Tarta Labs', contact: 'TBD', source: 'Research', value: 35000, stage: 'new', temperature: 'warm', notes: '$4.5M pre-seed. Anime RPG "Spot Zero". Backed by Bitkraft, Spartan, HashKey. Gaming = heavy brand/art needs.', lastContact: '2026-03-05' },
+  { id: '18', company: 'Orange Cap Games', contact: 'TBD', source: 'Research', value: 27000, stage: 'new', temperature: 'warm', notes: '$3.5M seed. Blockchain card game. Backed by Yuga Labs + 1kx. Card games need heavy visual work.', lastContact: '2026-03-05' },
+  { id: '19', company: 'Stablecore', contact: 'TBD', source: 'Research', value: 37000, stage: 'new', temperature: 'warm', notes: '$20M Series A. Enables banks/credit unions to offer stablecoin products. Enterprise B2B — needs trust-signaling brand.', lastContact: '2026-03-05' },
+  { id: '20', company: 'Unicity Labs', contact: 'TBD', source: 'Research', value: 20000, stage: 'new', temperature: 'warm', notes: '$3M seed. P2P AI agent marketplace. Led by Blockchange Ventures. Early stage — needs full brand identity.', lastContact: '2026-03-05' },
 ];
 
 export const seedTeam: TeamMember[] = [
