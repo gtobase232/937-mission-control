@@ -1,0 +1,92 @@
+{
+  "projects": [
+    {
+      "id": "ai-sales-agent",
+      "name": "AI Sales Agent",
+      "description": "End-to-end autonomous sales agent that identifies leads on X, researches their funding and company signals, scores them, and runs personalized outreach sequences. Handles everything from discovery to booking calls.",
+      "status": "active",
+      "progress": 62,
+      "timeline": {
+        "start": "2026-01-15",
+        "end": "2026-04-30"
+      },
+      "kpis": [
+        { "name": "Leads Processed", "value": 342, "target": 500, "unit": "leads" },
+        { "name": "Response Rate", "value": 12.4, "target": 15, "unit": "%" },
+        { "name": "Meetings Booked", "value": 18, "target": 40, "unit": "meetings" },
+        { "name": "Pipeline Generated", "value": 84000, "target": 200000, "unit": "$" }
+      ],
+      "tags": ["ai", "sales", "automation", "core-product"]
+    },
+    {
+      "id": "mission-control",
+      "name": "Mission Control Dashboard",
+      "description": "Internal command center for Black Sand operations. Real-time visibility into agent status, project progress, team tasks, finances, and content performance -- all in one dark-themed dashboard.",
+      "status": "active",
+      "progress": 38,
+      "timeline": {
+        "start": "2026-02-10",
+        "end": "2026-03-31"
+      },
+      "kpis": [
+        { "name": "Components Built", "value": 12, "target": 28, "unit": "components" },
+        { "name": "Data Sources Integrated", "value": 3, "target": 8, "unit": "sources" },
+        { "name": "Page Load Time", "value": 1.2, "target": 0.8, "unit": "seconds" }
+      ],
+      "tags": ["internal", "dashboard", "nextjs", "operations"]
+    },
+    {
+      "id": "client-onboarding",
+      "name": "Client Onboarding Automation",
+      "description": "Automated onboarding pipeline for new agency clients. Collects intake data, provisions agent instances, sets up reporting, and kicks off initial research -- reducing onboarding from 2 weeks to 2 days.",
+      "status": "planning",
+      "progress": 15,
+      "timeline": {
+        "start": "2026-03-01",
+        "end": "2026-05-15"
+      },
+      "kpis": [
+        { "name": "Onboarding Time", "value": 12, "target": 2, "unit": "days" },
+        { "name": "Client Satisfaction", "value": 7.2, "target": 9.0, "unit": "/10" },
+        { "name": "Manual Steps Remaining", "value": 14, "target": 3, "unit": "steps" }
+      ],
+      "tags": ["automation", "clients", "onboarding", "operations"]
+    },
+    {
+      "id": "content-engine",
+      "name": "Content Engine",
+      "description": "AI-powered content creation and distribution system. Generates thought leadership threads, blog posts, and LinkedIn content based on market signals, company wins, and industry trends. Tracks performance and optimizes for engagement.",
+      "status": "active",
+      "progress": 71,
+      "timeline": {
+        "start": "2026-01-20",
+        "end": "2026-03-30"
+      },
+      "kpis": [
+        { "name": "Posts Published", "value": 34, "target": 50, "unit": "posts" },
+        { "name": "Avg. Impressions", "value": 8400, "target": 12000, "unit": "per post" },
+        { "name": "Follower Growth", "value": 1240, "target": 2000, "unit": "followers" },
+        { "name": "Inbound Leads from Content", "value": 6, "target": 15, "unit": "leads" }
+      ],
+      "tags": ["content", "x", "linkedin", "marketing", "ai"]
+    },
+    {
+      "id": "lead-research-agent",
+      "name": "Lead Research Agent",
+      "description": "Specialized sub-agent that enriches prospect data by pulling funding rounds, team composition, tech stack, recent news, and social signals. Feeds enriched profiles into the Sales Agent for personalized outreach.",
+      "status": "active",
+      "progress": 48,
+      "timeline": {
+        "start": "2026-02-01",
+        "end": "2026-04-15"
+      },
+      "kpis": [
+        { "name": "Profiles Enriched", "value": 189, "target": 400, "unit": "profiles" },
+        { "name": "Data Accuracy", "value": 87, "target": 95, "unit": "%" },
+        { "name": "Enrichment Time", "value": 45, "target": 20, "unit": "seconds" },
+        { "name": "Sources Integrated", "value": 4, "target": 7, "unit": "sources" }
+      ],
+      "tags": ["ai", "research", "data", "sub-agent"]
+    }
+  ]
+}

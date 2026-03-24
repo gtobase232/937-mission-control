@@ -1,0 +1,147 @@
+{
+  "budget": {
+    "total": 120000,
+    "spent": 67450,
+    "remaining": 52550,
+    "currency": "USD",
+    "period": "Q1 2026"
+  },
+  "revenue": {
+    "total": 43500,
+    "monthly": [
+      { "month": "2026-01", "amount": 11000 },
+      { "month": "2026-02", "amount": 14500 },
+      { "month": "2026-03", "amount": 18000 }
+    ]
+  },
+  "expenses": [
+    {
+      "id": "exp-001",
+      "category": "AI & APIs",
+      "description": "Claude API usage (Opus + Haiku)",
+      "amount": 4200,
+      "date": "2026-03-01",
+      "project": "ai-sales-agent"
+    },
+    {
+      "id": "exp-002",
+      "category": "AI & APIs",
+      "description": "Claude API usage for content generation",
+      "amount": 1100,
+      "date": "2026-03-01",
+      "project": "content-engine"
+    },
+    {
+      "id": "exp-003",
+      "category": "Infrastructure",
+      "description": "Vercel Pro + Supabase hosting",
+      "amount": 320,
+      "date": "2026-03-01",
+      "project": "mission-control"
+    },
+    {
+      "id": "exp-004",
+      "category": "Infrastructure",
+      "description": "BullMQ + Redis cloud (job queue)",
+      "amount": 180,
+      "date": "2026-03-01",
+      "project": "ai-sales-agent"
+    },
+    {
+      "id": "exp-005",
+      "category": "Data & Tools",
+      "description": "X API Pro access",
+      "amount": 5000,
+      "date": "2026-02-15",
+      "project": "ai-sales-agent"
+    },
+    {
+      "id": "exp-006",
+      "category": "Data & Tools",
+      "description": "Prospecting data subscriptions",
+      "amount": 890,
+      "date": "2026-03-01",
+      "project": "lead-research-agent"
+    },
+    {
+      "id": "exp-007",
+      "category": "Marketing",
+      "description": "X promoted posts for brand awareness",
+      "amount": 1500,
+      "date": "2026-02-20",
+      "project": "content-engine"
+    },
+    {
+      "id": "exp-008",
+      "category": "Contractor",
+      "description": "Freelance designer for brand assets",
+      "amount": 2400,
+      "date": "2026-02-10",
+      "project": "mission-control"
+    },
+    {
+      "id": "exp-009",
+      "category": "Legal & Admin",
+      "description": "Business formation and contracts review",
+      "amount": 3500,
+      "date": "2026-01-20",
+      "project": null
+    },
+    {
+      "id": "exp-010",
+      "category": "AI & APIs",
+      "description": "Vector embedding and search (Pinecone)",
+      "amount": 240,
+      "date": "2026-03-01",
+      "project": "lead-research-agent"
+    },
+    {
+      "id": "exp-011",
+      "category": "Software",
+      "description": "Notion, Linear, Figma team licenses",
+      "amount": 280,
+      "date": "2026-03-01",
+      "project": null
+    },
+    {
+      "id": "exp-012",
+      "category": "Infrastructure",
+      "description": "Domain, DNS, and email hosting",
+      "amount": 45,
+      "date": "2026-03-01",
+      "project": null
+    }
+  ],
+  "projectBudgets": [
+    {
+      "projectId": "ai-sales-agent",
+      "name": "AI Sales Agent",
+      "budget": 45000,
+      "spent": 28900
+    },
+    {
+      "projectId": "mission-control",
+      "name": "Mission Control Dashboard",
+      "budget": 20000,
+      "spent": 8200
+    },
+    {
+      "projectId": "client-onboarding",
+      "name": "Client Onboarding Automation",
+      "budget": 15000,
+      "spent": 3400
+    },
+    {
+      "projectId": "content-engine",
+      "name": "Content Engine",
+      "budget": 25000,
+      "spent": 18600
+    },
+    {
+      "projectId": "lead-research-agent",
+      "name": "Lead Research Agent",
+      "budget": 15000,
+      "spent": 8350
+    }
+  ]
+}

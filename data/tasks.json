@@ -1,0 +1,114 @@
+{
+  "tasks": [
+    {
+      "id": "task-001",
+      "title": "Build lead scoring pipeline",
+      "description": "Implement an AI-driven lead scoring system that analyzes X engagement, funding data, and company signals to rank prospects automatically.",
+      "status": "in_progress",
+      "assignee": "Wolve",
+      "priority": "P0",
+      "dueDate": "2026-03-07",
+      "project": "ai-sales-agent",
+      "createdAt": "2026-02-25T10:00:00Z"
+    },
+    {
+      "id": "task-002",
+      "title": "Design Mission Control dashboard layout",
+      "description": "Create the main dashboard view with Kanban board, calendar widget, team status panel, and project overview cards. Use dark theme with accent colors.",
+      "status": "review",
+      "assignee": "Trinkster",
+      "priority": "P0",
+      "dueDate": "2026-03-05",
+      "project": "mission-control",
+      "createdAt": "2026-02-20T14:00:00Z"
+    },
+    {
+      "id": "task-003",
+      "title": "Automate client onboarding questionnaire",
+      "description": "Build an automated intake flow that collects client goals, ICP details, existing tech stack, and content preferences via a conversational AI form.",
+      "status": "backlog",
+      "assignee": "Sergio",
+      "priority": "P1",
+      "dueDate": "2026-03-14",
+      "project": "client-onboarding",
+      "createdAt": "2026-02-28T09:00:00Z"
+    },
+    {
+      "id": "task-004",
+      "title": "Write X thread on AI agent workflows",
+      "description": "Draft and schedule a high-value thread breaking down how our AI agents handle end-to-end sales outreach. Include metrics and real examples.",
+      "status": "done",
+      "assignee": "Juan Andres",
+      "priority": "P1",
+      "dueDate": "2026-03-01",
+      "project": "content-engine",
+      "createdAt": "2026-02-26T11:00:00Z"
+    },
+    {
+      "id": "task-005",
+      "title": "Integrate Stripe billing for client subscriptions",
+      "description": "Set up Stripe integration to handle monthly retainer billing, usage-based add-ons, and automated invoice generation for agency clients.",
+      "status": "backlog",
+      "assignee": "Trinkster",
+      "priority": "P1",
+      "dueDate": "2026-03-21",
+      "project": "client-onboarding",
+      "createdAt": "2026-03-01T08:00:00Z"
+    },
+    {
+      "id": "task-006",
+      "title": "Train research agent on funding data sources",
+      "description": "Fine-tune the lead research sub-agent to pull and synthesize data from Crunchbase, PitchBook alternatives, and SEC filings for prospect enrichment.",
+      "status": "in_progress",
+      "assignee": "Wolve",
+      "priority": "P0",
+      "dueDate": "2026-03-10",
+      "project": "lead-research-agent",
+      "createdAt": "2026-02-27T16:00:00Z"
+    },
+    {
+      "id": "task-007",
+      "title": "Create weekly KPI reporting template",
+      "description": "Build an automated weekly report that pulls metrics from all projects: leads generated, content engagement, revenue pipeline, and agent uptime.",
+      "status": "backlog",
+      "assignee": "Sergio",
+      "priority": "P2",
+      "dueDate": "2026-03-18",
+      "project": "mission-control",
+      "createdAt": "2026-03-02T10:00:00Z"
+    },
+    {
+      "id": "task-008",
+      "title": "Set up outreach sequence for Series A startups",
+      "description": "Design a multi-touch outreach campaign targeting recently funded Series A startups. Include personalized X DMs, email sequences, and follow-up cadence.",
+      "status": "in_progress",
+      "assignee": "Juan Andres",
+      "priority": "P1",
+      "dueDate": "2026-03-08",
+      "project": "ai-sales-agent",
+      "createdAt": "2026-02-28T13:00:00Z"
+    },
+    {
+      "id": "task-009",
+      "title": "Implement real-time agent status monitoring",
+      "description": "Add WebSocket-based live status updates for all AI agents in the dashboard, showing current task, uptime, error rates, and throughput.",
+      "status": "review",
+      "assignee": "Trinkster",
+      "priority": "P1",
+      "dueDate": "2026-03-06",
+      "project": "mission-control",
+      "createdAt": "2026-02-24T15:00:00Z"
+    },
+    {
+      "id": "task-010",
+      "title": "Draft case study from Meridian Labs engagement",
+      "description": "Write a detailed case study based on the Meridian Labs pilot: problem statement, solution architecture, results (3x pipeline increase), and testimonial.",
+      "status": "done",
+      "assignee": "Sergio",
+      "priority": "P2",
+      "dueDate": "2026-03-02",
+      "project": "content-engine",
+      "createdAt": "2026-02-22T09:30:00Z"
+    }
+  ]
+}
