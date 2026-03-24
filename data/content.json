@@ -1,0 +1,82 @@
+{
+  "posts": [
+    {
+      "id": "content-001",
+      "title": "Thread: How we built an AI sales agent that books meetings on autopilot",
+      "body": "We built an AI agent that handles the entire top-of-funnel sales process.\n\nFrom finding leads on X to booking calls -- fully autonomous.\n\nHere's exactly how it works (thread):\n\n1/ Lead Discovery\nOur agent monitors X 24/7 for buying signals:\n- Funding announcements\n- Hiring posts (especially sales roles)\n- Pain-point discussions about outbound\n\nIt processes ~100 signals/day and filters down to the top 20.\n\n2/ Research & Enrichment\nFor each lead, our Research Agent pulls:\n- Funding history & amount\n- Team size & growth rate\n- Tech stack & product focus\n- Recent news & social activity\n\nAvg enrichment time: 45 seconds per lead.\n\n3/ Lead Scoring\nA scoring model ranks each lead 0-100 based on:\n- ICP fit\n- Timing signals\n- Engagement level\n- Budget indicators\n\nOnly 65+ scores get outreach. This keeps our response rate above 14%.\n\n4/ Personalized Outreach\nThe agent crafts unique messages referencing:\n- Their specific funding round\n- Recent tweets or posts\n- Relevant pain points for their stage\n\nNo templates. Every message is 1-of-1.\n\n5/ Results after 6 weeks with our first client:\n- 487 leads researched\n- 185 outreach sequences\n- 14.2% response rate\n- 12 meetings booked\n- $340K pipeline generated\n\nThe client's SDR generated $110K in the same period.\n\n6/ What's next:\n- Adding LinkedIn as a channel\n- Building a self-improving scoring model\n- Launching our Mission Control dashboard\n\nIf you're a funded startup struggling with outbound, DM me.\n\nWe're taking on 3 more clients this quarter.",
+      "scheduledDate": "2026-02-24T14:00:00Z",
+      "status": "published",
+      "platform": "x",
+      "performance": {
+        "impressions": 24300,
+        "engagement": 6.2,
+        "clicks": 487
+      }
+    },
+    {
+      "id": "content-002",
+      "title": "Post: Meridian Labs case study results",
+      "body": "Our AI agent booked 12 meetings in 6 weeks for @MeridianLabs.\n\n$340K in pipeline generated.\n14.2% response rate (industry avg is 3-5%).\n\nTheir SDR generated $110K in the same period.\n\nThe kicker? Our agent runs 24/7 and never calls in sick.\n\nFull case study dropping next week.",
+      "scheduledDate": "2026-03-01T15:00:00Z",
+      "status": "published",
+      "platform": "x",
+      "performance": {
+        "impressions": 31200,
+        "engagement": 7.1,
+        "clicks": 620
+      }
+    },
+    {
+      "id": "content-003",
+      "title": "Thread: From 0 to $18K MRR in 8 weeks with AI agents",
+      "body": "8 weeks ago we had $0 in revenue.\n\nToday we're at $18K MRR with 3 clients.\n\nHere's the full transparent breakdown of how we got here building AI sales agents:\n\n1/ Week 1-2: Built the MVP\nNo fancy pitch decks. We built a working prototype in 2 weeks.\n- Lead scraping from X\n- Basic enrichment\n- Templated outreach\n\nIt was rough but it worked.\n\n2/ Week 3-4: First pilot client (Meridian Labs)\nGot our first client through X content. $3K/month pilot.\n- Customized the agent for their ICP\n- Started processing leads\n- First meeting booked by Day 5\n\n3/ Week 5-6: Results started compounding\nMeridian pilot was crushing it:\n- 12 meetings booked\n- $340K pipeline\n- 3x their SDR performance\n\nStarted posting results publicly. Inbound went crazy.\n\n4/ Week 7-8: Scaled to 3 clients\n- Meridian converted to $5K/month retainer\n- Two new clients onboarded at $4K and $5K/month\n- $18K MRR total\n\nOur costs: ~$6K/month (APIs, infrastructure, data)\n\n5/ What we learned:\n- X is the best channel for AI/tech outreach (19.6% response rate)\n- Building in public is the highest-ROI marketing strategy\n- AI agents don't replace sales -- they handle the parts humans hate\n\nMore updates next week. DM me if you want to learn more.",
+      "scheduledDate": "2026-03-02T14:30:00Z",
+      "status": "published",
+      "platform": "x",
+      "performance": {
+        "impressions": 22100,
+        "engagement": 6.5,
+        "clicks": 398
+      }
+    },
+    {
+      "id": "content-004",
+      "title": "LinkedIn post: The future of B2B sales is hybrid",
+      "body": "Hot take: The future of B2B sales isn't \"AI replacing salespeople.\"\n\nIt's AI handling the 80% of work that salespeople hate:\n- Lead research (hours of Googling)\n- Writing personalized first touches\n- Follow-up cadences\n- Data entry and CRM updates\n\nSo salespeople can focus on the 20% they're great at:\n- Building relationships\n- Running discovery calls\n- Closing deals\n- Strategic account planning\n\nAt Black Sand, our AI agents handle the top of funnel entirely. But when a lead responds with interest, a human takes over.\n\nThis hybrid model gives us:\n- 14% response rates (3-5x industry avg)\n- 100% personalized outreach at scale\n- Zero burnout on repetitive tasks\n\nThe companies that figure out this human+AI balance first will win the next decade of B2B sales.\n\nWhat's your take -- where should the handoff between AI and human happen in the sales process?",
+      "scheduledDate": "2026-03-05T12:00:00Z",
+      "status": "scheduled",
+      "platform": "linkedin",
+      "performance": {
+        "impressions": 0,
+        "engagement": 0,
+        "clicks": 0
+      }
+    },
+    {
+      "id": "content-005",
+      "title": "Thread: Our Mission Control dashboard (building in public)",
+      "body": "We're building our own internal Mission Control dashboard.\n\nOne screen to see everything:\n- All AI agents and their status\n- Sales pipeline and lead stages\n- Content performance metrics\n- Team tasks and project progress\n- Real-time financials\n\nHere's what we're building and why (thread):\n\n1/ The Problem\nWe were drowning in tabs. Notion for tasks, spreadsheets for pipeline, X analytics for content, Stripe for revenue.\n\nEvery morning started with 30 min of context-switching just to understand where things stood.\n\n2/ The Solution\nA single dark-themed dashboard that pulls from all our data sources.\n\nThink of it as the cockpit for an AI-powered agency.\n\n3/ Key Features\n- Agent Status Panel: see all AI agents running in real-time\n- Kanban Board: tasks across all projects\n- Lead Pipeline: visual funnel from discovery to closed\n- Content Calendar: upcoming posts + performance\n- Finance Tracker: MRR, expenses, runway\n\n4/ Tech Stack\n- Next.js + TypeScript\n- Tailwind CSS (dark mode everything)\n- Supabase for real-time data\n- Recharts for visualizations\n- Deployed on Vercel\n\n5/ Current status: 38% complete. Targeting MVP by March 14.\n\nWill be open-sourcing the template once it's stable.\n\nDrop a follow if you want to see the build progress.",
+      "scheduledDate": "2026-03-07T14:00:00Z",
+      "status": "draft",
+      "platform": "x",
+      "performance": {
+        "impressions": 0,
+        "engagement": 0,
+        "clicks": 0
+      }
+    },
+    {
+      "id": "content-006",
+      "title": "Blog: The Complete Guide to AI-Powered Sales Outreach in 2026",
+      "body": "A comprehensive guide covering how AI agents are transforming B2B sales outreach. Covers lead discovery, research enrichment, personalized messaging at scale, multi-channel sequencing, and response handling. Includes real data from our client engagements and practical advice for founders considering AI sales tools.\n\nSections:\n1. Why Traditional Outbound Is Broken\n2. The AI Agent Approach to Sales\n3. Building Your Lead Research Pipeline\n4. Personalization That Actually Works\n5. Multi-Channel Sequencing Strategy\n6. Measuring What Matters\n7. Case Study: How Meridian Labs 3x'd Their Pipeline\n8. Getting Started: DIY vs. Agency",
+      "scheduledDate": "2026-03-10T09:00:00Z",
+      "status": "draft",
+      "platform": "blog",
+      "performance": {
+        "impressions": 0,
+        "engagement": 0,
+        "clicks": 0
+      }
+    }
+  ]
+}

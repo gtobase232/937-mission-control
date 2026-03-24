@@ -1,0 +1,88 @@
+{
+  "members": [
+    {
+      "id": "wolve",
+      "name": "Wolve",
+      "role": "AI Lead Agent",
+      "type": "agent",
+      "status": "active",
+      "currentTask": "Building lead scoring pipeline for Sales Agent v2",
+      "avatar": "\ud83d\udc3a",
+      "tasksCompleted": 47,
+      "uptime": "99.2%",
+      "description": "Primary AI orchestrator for Black Sand. Manages all sub-agents, handles complex multi-step reasoning tasks, coordinates lead research and outreach pipelines. Runs 24/7 with scheduled deep work sessions."
+    },
+    {
+      "id": "trinkster",
+      "name": "Trinkster",
+      "role": "Founder & Operator",
+      "type": "human",
+      "status": "active",
+      "currentTask": "Implementing real-time agent monitoring in Mission Control",
+      "avatar": "\ud83d\ude80",
+      "tasksCompleted": 63,
+      "uptime": null,
+      "description": "Technical founder and chief builder. Handles product development, engineering, and client delivery. Known for late-night shipping sessions. Turns ideas into working systems faster than anyone."
+    },
+    {
+      "id": "sergio",
+      "name": "Sergio",
+      "role": "Co-founder & Strategy",
+      "type": "human",
+      "status": "active",
+      "currentTask": "Preparing investor update and Q1 financial review",
+      "avatar": "\ud83c\udfaf",
+      "tasksCompleted": 38,
+      "uptime": null,
+      "description": "Strategy and operations co-founder. Manages finances, partnerships, and business development. Early morning operator who reviews agent outputs and sets daily priorities."
+    },
+    {
+      "id": "juan-andres",
+      "name": "Juan Andres",
+      "role": "Co-founder & Content",
+      "type": "human",
+      "status": "active",
+      "currentTask": "Setting up outreach sequence for Series A startups",
+      "avatar": "\u270d\ufe0f",
+      "tasksCompleted": 41,
+      "uptime": null,
+      "description": "Content and brand co-founder. Leads the content engine, community building, and public narrative. Crafts threads that turn technical capabilities into compelling stories."
+    },
+    {
+      "id": "sales-agent",
+      "name": "Sales Agent",
+      "role": "Outreach Sub-Agent",
+      "type": "agent",
+      "status": "active",
+      "currentTask": "Running outreach sequence batch for 23 scored leads",
+      "avatar": "\ud83d\udcbc",
+      "tasksCompleted": 312,
+      "uptime": "98.7%",
+      "description": "Handles automated outreach execution across X DMs, email, and LinkedIn. Personalizes messages using enriched lead data, manages follow-up cadences, and classifies responses for routing."
+    },
+    {
+      "id": "research-agent",
+      "name": "Research Agent",
+      "role": "Lead Enrichment Sub-Agent",
+      "type": "agent",
+      "status": "active",
+      "currentTask": "Enriching 15 new leads from funding announcement scrape",
+      "avatar": "\ud83d\udd0d",
+      "tasksCompleted": 189,
+      "uptime": "97.4%",
+      "description": "Specializes in deep lead research and data enrichment. Pulls funding data, team info, tech stack signals, and recent news for each prospect. Feeds enriched profiles into the scoring engine."
+    },
+    {
+      "id": "content-agent",
+      "name": "Content Agent",
+      "role": "Content Generation Sub-Agent",
+      "type": "agent",
+      "status": "idle",
+      "currentTask": null,
+      "avatar": "\ud83d\udcdd",
+      "tasksCompleted": 84,
+      "uptime": "96.1%",
+      "description": "Generates draft content based on content calendar, market signals, and company updates. Produces X threads, LinkedIn posts, and blog outlines. All outputs go through human review before publishing."
+    }
+  ]
+}

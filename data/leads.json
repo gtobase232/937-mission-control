@@ -1,0 +1,128 @@
+{
+  "leads": [
+    {
+      "id": "lead-001",
+      "company": "NovaCrest AI",
+      "contact": "Marcus Reeves, CEO",
+      "xHandle": "@marcusreeves_ai",
+      "fundingAmount": "$8.2M Series A",
+      "stage": "call",
+      "notes": "Building AI infrastructure for fintech. Mentioned pain with outbound on X. Team of 14, hiring 3 SDRs -- perfect timing for our pitch.",
+      "interactions": [
+        { "date": "2026-02-18", "type": "research", "note": "Identified via funding announcement scrape. Strong ICP match: AI company, recently funded, growing sales team." },
+        { "date": "2026-02-20", "type": "x_dm", "note": "Sent personalized DM referencing their recent Series A and hiring posts. Mentioned our Meridian Labs results." },
+        { "date": "2026-02-22", "type": "response", "note": "Marcus replied: 'Interesting timing. We're literally building out our outbound motion right now. Tell me more.'" },
+        { "date": "2026-02-25", "type": "email", "note": "Sent detailed overview with case study. Proposed 30-min intro call." },
+        { "date": "2026-03-06", "type": "call", "note": "Intro call scheduled for March 6th." }
+      ],
+      "createdAt": "2026-02-18T10:00:00Z"
+    },
+    {
+      "id": "lead-002",
+      "company": "Stratify AI",
+      "contact": "Lena Park, Head of Growth",
+      "xHandle": "@lenapark_strat",
+      "fundingAmount": "$3.5M Seed",
+      "stage": "proposal",
+      "notes": "Developer tools for ML ops. Very active on X with strong following. Currently doing outbound manually with 1 SDR. Clear pain point around scaling outreach.",
+      "interactions": [
+        { "date": "2026-02-10", "type": "research", "note": "Found through X engagement with AI sales content. Lena liked 3 of our threads." },
+        { "date": "2026-02-12", "type": "x_dm", "note": "Warm DM referencing her engagement with our content and their hiring post for SDR #2." },
+        { "date": "2026-02-13", "type": "response", "note": "Quick reply: 'Been following your builds. Would love to chat about what you did for Meridian.'" },
+        { "date": "2026-02-15", "type": "call", "note": "30-min intro call. Strong interest. Asked for proposal with pricing options." },
+        { "date": "2026-02-20", "type": "email", "note": "Sent proposal: $5K/month retainer + $2K setup. Awaiting decision." },
+        { "date": "2026-03-01", "type": "follow_up", "note": "Gentle follow-up. Lena said she's reviewing with co-founder this week." }
+      ],
+      "createdAt": "2026-02-10T14:00:00Z"
+    },
+    {
+      "id": "lead-003",
+      "company": "Compound Bio",
+      "contact": "David Torres, VP Sales",
+      "xHandle": "@davidtorres_cb",
+      "fundingAmount": "$22M Series B",
+      "stage": "outreach",
+      "notes": "Biotech data platform. Large enterprise sales team but struggling with top-of-funnel. Came through as high-score lead from research agent. $180K ACV potential.",
+      "interactions": [
+        { "date": "2026-02-28", "type": "research", "note": "Surfaced by research agent. Series B in Jan 2026, 85-person company, actively hiring in sales. High ICP score: 88/100." },
+        { "date": "2026-03-02", "type": "x_dm", "note": "Sent outreach DM referencing their recent expansion and challenges scaling pipeline for enterprise biotech." }
+      ],
+      "createdAt": "2026-02-28T09:00:00Z"
+    },
+    {
+      "id": "lead-004",
+      "company": "Riviera Cloud",
+      "contact": "Amara Johnson, Founder",
+      "xHandle": "@amaraj_riviera",
+      "fundingAmount": "$5.1M Seed",
+      "stage": "response",
+      "notes": "Cloud cost optimization platform. Solo founder with small team. Very engaged on X -- 12K followers. Needs outbound but has zero sales team.",
+      "interactions": [
+        { "date": "2026-02-22", "type": "research", "note": "Found via X monitoring: tweeted about needing to start outbound but not wanting to hire SDRs. Perfect signal." },
+        { "date": "2026-02-23", "type": "x_dm", "note": "DM'd referencing her exact tweet about outbound challenges. Offered a no-commitment pilot." },
+        { "date": "2026-02-26", "type": "response", "note": "Amara replied: 'This is exactly what I need. No bandwidth to build a sales team right now. What does a pilot look like?'" },
+        { "date": "2026-02-27", "type": "email", "note": "Sent pilot structure overview. Awaiting scheduling of intro call." }
+      ],
+      "createdAt": "2026-02-22T16:00:00Z"
+    },
+    {
+      "id": "lead-005",
+      "company": "Helix Security",
+      "contact": "Ryan Chen, CRO",
+      "xHandle": "@ryanchen_helix",
+      "fundingAmount": "$15M Series A",
+      "stage": "discovery",
+      "notes": "Cybersecurity startup for SMBs. Big sales org (20+ people) but heavy focus on inbound. Might need help expanding outbound channels.",
+      "interactions": [
+        { "date": "2026-03-01", "type": "research", "note": "Identified from funding database scan. Large sales team, mostly inbound-driven. Outbound opportunity may be limited -- needs further qualification." }
+      ],
+      "createdAt": "2026-03-01T11:00:00Z"
+    },
+    {
+      "id": "lead-006",
+      "company": "Meridian Labs",
+      "contact": "Sarah Chen, VP Revenue",
+      "xHandle": "@sarahchen_ml",
+      "fundingAmount": "$12M Series A",
+      "stage": "closed_won",
+      "notes": "AI-powered lab automation. Pilot client converted to $5K/month retainer. Expanding scope to LinkedIn. Reference client for case studies.",
+      "interactions": [
+        { "date": "2026-01-08", "type": "research", "note": "Inbound inquiry from Sarah after seeing our X thread on AI sales agents." },
+        { "date": "2026-01-10", "type": "call", "note": "Intro call. Strong fit. Agreed to 6-week pilot at $3K/month." },
+        { "date": "2026-01-15", "type": "onboarding", "note": "Pilot started. Agent provisioned, ICP configured." },
+        { "date": "2026-02-28", "type": "call", "note": "Pilot review. 12 meetings booked, $340K pipeline. Sarah thrilled." },
+        { "date": "2026-03-01", "type": "contract", "note": "Signed $5K/month retainer. Expanding to include LinkedIn outreach channel." }
+      ],
+      "createdAt": "2026-01-08T09:00:00Z"
+    },
+    {
+      "id": "lead-007",
+      "company": "Prism Analytics",
+      "contact": "Jordan Hayes, CEO",
+      "xHandle": "@jordanhayes_pa",
+      "fundingAmount": "$2.8M Pre-Seed",
+      "stage": "closed_lost",
+      "notes": "Data analytics for e-commerce. Interested but too early stage -- no budget for external sales support. Revisit in 6 months after they raise.",
+      "interactions": [
+        { "date": "2026-02-05", "type": "x_dm", "note": "Outreach based on hiring post for first sales hire." },
+        { "date": "2026-02-07", "type": "response", "note": "Jordan responded positively but flagged budget constraints." },
+        { "date": "2026-02-10", "type": "call", "note": "Quick call confirmed: interested but pre-revenue, cant justify $3K+/month yet." },
+        { "date": "2026-02-11", "type": "closed", "note": "Marked as closed-lost. Set reminder to revisit post-Series A. Added to nurture content list." }
+      ],
+      "createdAt": "2026-02-05T12:00:00Z"
+    },
+    {
+      "id": "lead-008",
+      "company": "Velox Robotics",
+      "contact": "Nina Patel, Head of BD",
+      "xHandle": "@ninapatel_velox",
+      "fundingAmount": "$18M Series A",
+      "stage": "researched",
+      "notes": "Industrial robotics company. Strong funding, growing commercial team. Research agent enriched profile -- high ICP score (82). Ready for outreach sequence.",
+      "interactions": [
+        { "date": "2026-03-02", "type": "research", "note": "Auto-surfaced by research agent from funding announcement. 82/100 ICP score. 42 employees, hiring in sales and marketing. Nina is active on X with 5K followers." }
+      ],
+      "createdAt": "2026-03-02T08:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "documents": [
+    {
+      "id": "doc-001",
+      "title": "Black Sand Agency - Operating Playbook",
+      "content": "# Black Sand Operating Playbook\n\n## Mission\nBuild autonomous AI agents that handle the grunt work of B2B sales and marketing, so founders can focus on closing deals and building product.\n\n## Core Principles\n1. **Agents First** -- Every repetitive process gets an agent before it gets a hire.\n2. **Speed Over Perfection** -- Ship MVPs in days, iterate based on real client feedback.\n3. **Transparent Metrics** -- If we can't measure it, we don't promise it.\n4. **Compounding Content** -- Every insight we generate becomes a content asset.\n\n## Team Structure\n- **Trinkster (Founder/Operator)** -- Product, engineering, client delivery\n- **Sergio (Co-founder)** -- Strategy, finance, partnerships\n- **Juan Andres (Co-founder)** -- Content, brand, community\n- **Wolve (AI Lead Agent)** -- Orchestrates all sub-agents, handles complex reasoning\n\n## Daily Cadence\n- 7:00 AM -- Sergio reviews overnight agent outputs, flags issues\n- 2:00 PM -- Wolve deep work session: lead processing, research enrichment\n- 3:00 PM -- Team standup (async or sync)\n- 11:00 PM -- Trinkster night build session: shipping features\n\n## Revenue Model\n- Monthly retainers: $3K-$8K per client\n- Performance bonuses: 10% of pipeline generated above baseline\n- Setup fees: $2K one-time for onboarding and agent customization",
+      "project": null,
+      "category": "guide",
+      "tags": ["operations", "culture", "playbook"],
+      "createdAt": "2026-01-10T09:00:00Z",
+      "updatedAt": "2026-02-28T14:00:00Z"
+    },
+    {
+      "id": "doc-002",
+      "title": "AI Sales Agent - Technical Specification",
+      "content": "# AI Sales Agent v2 -- Technical Spec\n\n## Overview\nThe Sales Agent is a multi-step autonomous system that handles the full top-of-funnel sales process for B2B startups.\n\n## Architecture\n```\nLead Sources --> Research Agent --> Scoring Engine --> Outreach Sequencer --> Response Handler\n     |                |                  |                   |                    |\n   X API         Enrichment DB      ML Classifier      Template Engine      Intent Parser\n```\n\n## Components\n\n### 1. Lead Discovery\n- Monitors X for signals: funding announcements, hiring posts, pain-point discussions\n- Pulls from curated lists of recently funded startups\n- Input: keywords, ICP criteria, exclusion rules\n- Output: raw lead objects with source metadata\n\n### 2. Research & Enrichment\n- Calls Research Agent sub-system for deep profile building\n- Data points: funding amount, team size, tech stack, recent news, social activity\n- Enrichment latency target: <20s per lead\n\n### 3. Lead Scoring\n- Features: funding recency, team growth rate, tech relevance, engagement level\n- Model: gradient-boosted classifier trained on historical conversion data\n- Score range: 0-100, threshold for outreach: 65+\n\n### 4. Outreach Sequencer\n- Multi-channel: X DM, email, LinkedIn\n- Personalization: uses enriched data to customize first line and value prop\n- Cadence: Day 0 (DM), Day 2 (email), Day 5 (follow-up), Day 10 (break-up)\n\n### 5. Response Handler\n- Classifies responses: interested, not now, not interested, question, OOO\n- Routes interested leads to calendar booking flow\n- Escalates edge cases to human team\n\n## Tech Stack\n- Runtime: Node.js + TypeScript\n- LLM: Claude API (Opus for complex reasoning, Haiku for classification)\n- Database: Supabase (Postgres + vector store)\n- Queue: BullMQ for job orchestration\n- Monitoring: Custom dashboard in Mission Control",
+      "project": "ai-sales-agent",
+      "category": "spec",
+      "tags": ["technical", "architecture", "sales-agent"],
+      "createdAt": "2026-01-20T16:00:00Z",
+      "updatedAt": "2026-03-01T22:00:00Z"
+    },
+    {
+      "id": "doc-003",
+      "title": "Client Onboarding Guide",
+      "content": "# Client Onboarding Guide\n\n## Pre-Onboarding Checklist\n- [ ] Signed contract and payment method on file\n- [ ] Intake questionnaire completed\n- [ ] Access credentials shared (X, email, CRM)\n- [ ] ICP document reviewed and approved\n\n## Onboarding Steps\n\n### Day 1: Discovery & Setup\n1. **Kickoff Call** (45 min) -- Meet the team, align on goals and expectations\n2. **ICP Deep Dive** -- Define ideal customer profile with specifics:\n   - Industry verticals\n   - Company size (employees, revenue)\n   - Funding stage\n   - Tech stack signals\n   - Geographic focus\n3. **Agent Provisioning** -- Spin up dedicated agent instance with client config\n\n### Day 2: Configuration & Testing\n1. **Outreach Templates** -- Customize messaging voice, value props, CTAs\n2. **Lead Source Setup** -- Configure X monitoring keywords, list imports\n3. **Test Run** -- Process 20 test leads end-to-end, review outputs with client\n4. **Scoring Calibration** -- Adjust scoring weights based on client feedback\n\n### Day 3-5: Soft Launch\n1. **Limited Outreach** -- Run at 25% volume, monitor response quality\n2. **Daily Check-ins** -- Review metrics, adjust personalization\n3. **Escalation Rules** -- Define what gets routed to client vs. handled by agent\n\n### Day 6+: Full Launch\n1. **Ramp to Full Volume** -- Increase to target throughput\n2. **Weekly Reports** -- Automated KPI reports via Mission Control\n3. **Bi-weekly Optimization Call** -- Review performance, iterate on strategy\n\n## Success Metrics (First 30 Days)\n- 200+ leads researched and scored\n- 15%+ response rate on outreach\n- 5+ qualified meetings booked\n- Client NPS score of 8+",
+      "project": "client-onboarding",
+      "category": "guide",
+      "tags": ["onboarding", "clients", "process"],
+      "createdAt": "2026-02-05T10:00:00Z",
+      "updatedAt": "2026-02-25T11:30:00Z"
+    },
+    {
+      "id": "doc-004",
+      "title": "Content Strategy Brief - Q1 2026",
+      "content": "# Content Strategy Brief -- Q1 2026\n\n## Objective\nEstablish Black Sand as the go-to voice for AI-powered sales automation on X and LinkedIn. Drive inbound leads through thought leadership and transparent building-in-public content.\n\n## Content Pillars\n\n### 1. Building in Public (40%)\n- Weekly progress updates on agent development\n- Revenue and metrics transparency posts\n- Behind-the-scenes of our tech stack and architecture decisions\n- Failures and lessons learned\n\n### 2. AI Sales Insights (30%)\n- Tactical threads on AI outreach best practices\n- Data-driven posts on what works in automated prospecting\n- Comparisons: AI agents vs. traditional SDR workflows\n- Industry trend analysis\n\n### 3. Client Results (20%)\n- Case studies and success metrics\n- Before/after comparisons\n- Client testimonials and quotes\n- ROI breakdowns\n\n### 4. Team & Culture (10%)\n- Team member spotlights\n- Our unique human+AI operating model\n- Hiring and collaboration philosophy\n\n## Publishing Cadence\n- **X**: 5-7 posts/week, 2 threads/week\n- **LinkedIn**: 2-3 posts/week\n- **Blog**: 1 long-form piece/month\n\n## Targets\n| Metric | Current | Q1 Target |\n|--------|---------|----------|\n| X Followers | 2,840 | 5,000 |\n| Avg. Thread Impressions | 8,400 | 15,000 |\n| Inbound Leads from Content | 6 | 20 |\n| Newsletter Subscribers | 320 | 1,000 |",
+      "project": "content-engine",
+      "category": "brief",
+      "tags": ["content", "strategy", "marketing", "q1-2026"],
+      "createdAt": "2026-01-05T14:00:00Z",
+      "updatedAt": "2026-03-01T09:00:00Z"
+    },
+    {
+      "id": "doc-005",
+      "title": "Meridian Labs - Pilot Results Report",
+      "content": "# Meridian Labs Pilot Results\n\n## Engagement Summary\n- **Client**: Meridian Labs (Series A, AI-powered lab automation)\n- **Duration**: 6 weeks (Jan 15 -- Feb 28, 2026)\n- **Objective**: Generate qualified pipeline for their enterprise sales team\n\n## Results\n\n### Lead Generation\n- **Leads Researched**: 487\n- **Leads Scored 65+**: 203 (41.7% qualification rate)\n- **Outreach Sent**: 185 personalized sequences\n- **Response Rate**: 14.2% (industry avg: 3-5%)\n- **Meetings Booked**: 12\n- **Pipeline Generated**: $340,000\n\n### Performance Breakdown\n| Channel | Sent | Responses | Response Rate | Meetings |\n|---------|------|-----------|---------------|----------|\n| X DM | 92 | 18 | 19.6% | 6 |\n| Email | 185 | 22 | 11.9% | 4 |\n| LinkedIn | 74 | 8 | 10.8% | 2 |\n\n### Key Wins\n1. Landed intro with VP Sales at Compound Bio ($180K ACV opportunity)\n2. Booked demo with Head of Growth at Stratify AI\n3. Generated 3x more pipeline than their in-house SDR in same period\n4. Client reported 85% satisfaction with lead quality\n\n### Learnings\n- X DMs significantly outperformed email for this ICP (dev tools / AI companies)\n- Personalization referencing recent funding or product launches had 2.3x higher response rate\n- Optimal outreach window: Tuesday-Thursday, 10 AM - 12 PM recipient local time\n- Follow-up on Day 3 (not Day 2) improved response rate by 18%\n\n## Client Testimonial\n> \"Black Sand's AI agent generated more qualified pipeline in 6 weeks than our SDR did in a quarter. The personalization quality was surprisingly good -- prospects didn't realize they were talking to an AI-assisted system.\" -- Sarah Chen, VP Revenue, Meridian Labs\n\n## Next Steps\n- Meridian Labs converting to $5K/month retainer\n- Expanding scope to include LinkedIn outreach\n- Setting up custom reporting dashboard in Mission Control",
+      "project": "ai-sales-agent",
+      "category": "report",
+      "tags": ["case-study", "results", "meridian-labs", "pilot"],
+      "createdAt": "2026-03-01T10:00:00Z",
+      "updatedAt": "2026-03-02T16:00:00Z"
+    }
+  ]
+}
